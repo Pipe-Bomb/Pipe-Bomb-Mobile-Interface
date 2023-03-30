@@ -1,0 +1,23 @@
+.container {
+    padding: 10px !important;
+    justify-content: space-between;
+}
+
+.avatar {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+
+    img {
+        transform: scale(1.2);
+    }
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    gap: 10px;
+}
