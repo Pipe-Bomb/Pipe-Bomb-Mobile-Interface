@@ -3,19 +3,9 @@
     min-width: 50px !important;
     height: 50px !important;
 
-    svg {
-        height: 40px;
-        width: 40px;
-    }
-
     &.small {
         max-width: 40px;
         min-width: 40px !important;
         height: 40px !important;
-
-        svg {
-            width: 30px;
-            height: 30px;
-        }
     }
 }

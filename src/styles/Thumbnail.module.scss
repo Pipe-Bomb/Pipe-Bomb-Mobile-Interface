@@ -1,0 +1,36 @@
+.container {
+    width: 200px;
+}
+
+.image {
+    width: 200px;
+    height: 200px;
+}
+
+.title {
+    margin: 0;
+    font-size: var(--nextui-fontSizes-lg);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-top: 5px;
+}
+
+.subtitle {
+    margin: 0;
+    font-size: var(--nextui-fontSizes-sm);
+    color: var(--nextui-colors-accents7) !important;
+}
+
+.small {
+    width: 100px;
+
+    .image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .title {
+        font-size: var(--nextui-fontSizes-md);
+    }
+}

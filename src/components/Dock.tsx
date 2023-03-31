@@ -30,22 +30,25 @@ export default function Dock() {
     });
 
     return (
-        <Grid.Container className={styles.container} justify="space-evenly" alignItems="center">
-            <Grid className={iconStyle.icon}>
-                <Link to="/">
-                    <AiOutlineHome />
-                </Link>
-            </Grid>
-            <Grid className={iconStyle.icon}>
-                <Link to="/explore">
-                    <AiOutlineCompass />
-                </Link>
-            </Grid>
-            <Grid className={iconStyle.icon}>
-                <Link to="/library">
-                    <VscLibrary />
-                </Link>
-            </Grid>
-        </Grid.Container>
+        <>
+            <div className={styles.spacer}></div>
+            <Grid.Container className={styles.container} justify="space-evenly" alignItems="center">
+                <Grid className={iconStyle.icon}>
+                    <Link to="/">
+                        <AiOutlineHome />
+                    </Link>
+                </Grid>
+                <Grid className={iconStyle.icon}>
+                    <Link to="/explore">
+                        <AiOutlineCompass />
+                    </Link>
+                </Grid>
+                <Grid className={iconStyle.icon}>
+                    <Link to="/library">
+                        <VscLibrary />
+                    </Link>
+                </Grid>
+            </Grid.Container>
+        </>
     )
 }

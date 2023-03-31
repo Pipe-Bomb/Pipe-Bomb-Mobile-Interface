@@ -1,0 +1,42 @@
+.container {
+    margin-top: var(--nextui-space-10);
+}
+
+.title {
+    margin: 0 1rem;
+}
+
+.scrollContainer {
+    position: relative;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 1rem;
+        z-index: 1;
+        background: linear-gradient(-90deg, transparent 0%, var(--nextui-colors-background) 100%);
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 1rem;
+        z-index: 1;
+        background: linear-gradient(90deg, transparent 0%, var(--nextui-colors-background) 100%);
+    }
+}
+
+.scroll {
+    box-sizing: border-box;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+}

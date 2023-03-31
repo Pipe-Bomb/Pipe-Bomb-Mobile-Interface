@@ -5,4 +5,9 @@
     right: 0;
     height: 60px;
     background: var(--nextui-colors-backgroundContrast);
+    z-index: 99;
+}
+
+.spacer {
+    height: 80px;
 }
