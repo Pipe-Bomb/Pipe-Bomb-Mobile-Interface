@@ -1,4 +1,4 @@
-import "./styles/App.module.scss";
+import styles from "./styles/App.module.scss";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Dock from "./components/Dock";
@@ -12,15 +12,19 @@ function App() {
     <>
       <Routes>
         <Route path="/connect" element={<Connect />} />
-        <Route path="*" element={<>
-          <Head />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/playlist/:playlistID" element={<Playlist />} />
-          </Routes>
-          <Player />
-          <Dock />
-        </>} />
+        <Route path="*" element={
+          <div className={styles.flex}>
+            <Head />
+            <div className={styles.content}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/playlist/:playlistID" element={<Playlist />} />
+            </Routes>
+            <Player />
+            <Dock />
+          </div>
+          </div>
+        } />
       </Routes>
     </>
   )

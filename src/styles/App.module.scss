@@ -1,0 +1,17 @@
+.content {
+    flex-grow: 1;
+    position: relative;
+    margin-bottom: 60px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

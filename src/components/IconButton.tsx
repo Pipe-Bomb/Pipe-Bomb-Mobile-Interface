@@ -5,12 +5,13 @@ import styles from "../styles/IconButton.module.scss";
 
 export interface IconButtonProps {
     children?: JSX.Element
-    small?: boolean
+    small?: boolean,
+    onPress?: () => void
 }
 
-export default function IconButton({ children, small }: IconButtonProps) {
+export default function IconButton({ children, small, onPress }: IconButtonProps) {
     return (
-        <Button light className={styles.button + (small ? (" " + styles.small) : "")}>
+        <Button light className={styles.button + (small ? (" " + styles.small) : "")} onPress={onPress}>
             <IconContext.Provider value={{size: small ? "30px" : "40px"}}>
                 { children }
             </IconContext.Provider>

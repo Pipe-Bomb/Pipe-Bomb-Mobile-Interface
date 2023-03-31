@@ -1,10 +1,66 @@
 .container {
     position: fixed;
     bottom: 65px;
-    height: 50px;
+    height: 60px;
     left: 5px;
     right: 5px;
     background: var(--nextui-colors-secondaryLight);
     z-index: 98;
     border-radius: var(--nextui-radii-base);
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 5px;
+    overflow: hidden;
+}
+
+.image {
+    height: 50px;
+    width: 50px;
+    border-radius: var(--nextui-radii-base);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 1rem;
+    flex-grow: 1;
+    flex-shrink: 1;
+    max-width: calc(100% - 115px);
+}
+
+.title {
+    font-size: var(--nextui-fontSizes-md);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+}
+
+.artist {
+    font-size: var(--nextui-fontSizes-sm);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+    color: var(--nextui-colors-accents7) !important;
+}
+
+.play {
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 50px;
+}
+
+.progress {
+    position: absolute;
+    bottom: 0;
+    left: 7px;
+    height: 2px;
+    background: var(--nextui-colors-primary);
 }

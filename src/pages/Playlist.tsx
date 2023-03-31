@@ -12,11 +12,15 @@ import Account, { UserDataFormat } from "../logic/Account";
 import PipeBombConnection from "../logic/PipeBombConnection";
 import PlaylistIndex from "../logic/PlaylistIndex";
 import styles from "../styles/Playlist.module.scss";
+import PlaylistImage from "../components/PlaylistImage";
+import AudioPlayer from "../logic/AudioPlayer";
+import { shuffle } from "../logic/Utils";
 
 let lastPlaylistID = "";
 
 export default function Playlist() {
     let paramID: any = useParams().playlistID;
+    const audioPlayer = AudioPlayer.getInstance();
 
     const [playlist, setPlaylist] = useState<Collection | null>(null);
     const [trackList, setTrackList] = useState<Track[] | null | false>(false);
@@ -102,40 +106,60 @@ export default function Playlist() {
     }
 
     if (!playlist) {
-        return <Loader text="Loading..."></Loader>
+        return <div className={styles.loaderContainer}>
+            <Loader text="Loading..."></Loader>
+        </div>
     }
+
+    const isOwnPlaylist = selfInfo && selfInfo.userID == playlist.owner.userID;
 
     if (trackList === false) {
         return (
-            <>
-                <Text h1>{playlist.getName()}</Text>
+            <div className={styles.loaderContainer}>
+                <div className={styles.top}>
+                    <div className={styles.image}>
+                        <PlaylistImage playlist={playlist} />
+                    </div>
+                    <div className={styles.content}>
+                        <Text h1 className={styles.title}>{playlist.getName()}</Text>
+                        {!isOwnPlaylist && (
+                            <Text h4>by {playlist.owner.username}</Text>
+                        )}
+                    </div>
+                </div>
                 <Loader text="Loading Tracks..."></Loader>
-            </>
+            </div>
         )
     }
 
 
     const newTrackList: Track[] = trackList || [];
-    const isOwnPlaylist = selfInfo && selfInfo.userID == playlist.owner.userID;
 
     function playPlaylist() {
         if (!trackList) return;
-        // audioPlayer.addToQueue(trackList, 0);
-        // audioPlayer.nextTrack();
+        audioPlayer.addToQueue(trackList, 0);
+        audioPlayer.nextTrack();
     }
 
     function shufflePlaylist() {
         if (!trackList) return;
-        // audioPlayer.addToQueue(shuffle(trackList), 0);
-        // audioPlayer.nextTrack();
+        audioPlayer.addToQueue(shuffle(trackList), 0);
+        audioPlayer.nextTrack();
     }
 
     return (
         <>
-            <Text h1 className={styles.title}>{playlist.getName()}</Text>
-            {!isOwnPlaylist && (
-                <Text h4>by {playlist.owner.username}</Text>
-            )}
+            <div className={styles.top}>
+                <div className={styles.image}>
+                    <PlaylistImage playlist={playlist} />
+                </div>
+                <div className={styles.content}>
+                    <Text h1 className={styles.title}>{playlist.getName()}</Text>
+                    {!isOwnPlaylist && (
+                        <Text h4>by {playlist.owner.username}</Text>
+                    )}
+                </div>
+            </div>
             <Grid.Container gap={2} alignItems="center">
                 <Grid>
                     <Button size="xl" auto onPress={playPlaylist} color="gradient">
@@ -151,16 +175,6 @@ export default function Playlist() {
                         </IconContext.Provider>
                     </Button>
                 </Grid>
-                {/* <Grid>
-                    <Dropdown>
-                        <Dropdown.Trigger>
-                            <Button light size="xl" className={styles.contextButton}>
-                                <MdMoreHoriz />
-                            </Button>
-                        </Dropdown.Trigger>
-                        { generateContextMenu() }
-                    </Dropdown>
-                </Grid> */}
             </Grid.Container>
             {newTrackList.map((track, index) => (
                 <ListTrack key={index} track={track} parentPlaylist={playlist} />

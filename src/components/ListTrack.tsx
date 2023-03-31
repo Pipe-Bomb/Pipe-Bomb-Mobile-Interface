@@ -28,12 +28,12 @@ export default function ListTrack({ track }: ListTrackProps) {
     }
 
     return (
-        <div className={styles.container} key={track.trackID}>
+        <div className={styles.container} key={track.trackID} onClick={playTrack}>
             <div className={styles.image} onClick={playTrack}>
                 <Image src={metadata?.image} />
             </div>
             <div className={styles.info}>
-                <span className={styles.trackName} onClick={playTrack}>{metadata?.title || track.trackID}</span>
+                <span className={styles.trackName}>{metadata?.title || track.trackID}</span>
                 {metadata && (
                     <span className={styles.artists}>{convertArrayToString(metadata.artists)}</span>
                 )}
