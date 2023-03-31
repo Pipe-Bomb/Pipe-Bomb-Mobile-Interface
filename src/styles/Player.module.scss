@@ -1,0 +1,10 @@
+.container {
+    position: fixed;
+    bottom: 65px;
+    height: 50px;
+    left: 5px;
+    right: 5px;
+    background: var(--nextui-colors-secondaryLight);
+    z-index: 98;
+    border-radius: var(--nextui-radii-base);
+}

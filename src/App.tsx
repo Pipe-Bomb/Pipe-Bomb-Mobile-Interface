@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Dock from "./components/Dock";
 import Connect from "./pages/Connect";
 import Head from "./components/Head";
+import Playlist from "./pages/Playlist";
+import Player from "./components/Player";
 
 function App() {
   return (
@@ -14,7 +16,9 @@ function App() {
           <Head />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/playlist/:playlistID" element={<Playlist />} />
           </Routes>
+          <Player />
           <Dock />
         </>} />
       </Routes>

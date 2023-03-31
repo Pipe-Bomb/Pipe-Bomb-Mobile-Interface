@@ -1,5 +1,6 @@
 import PipeBombConnection from "./PipeBombConnection";
 import Collection from "pipebomb.js/dist/collection/Collection";
+import { wait } from "./Utils";
 
 export default class PlaylistIndex {
     private static instance: PlaylistIndex;
@@ -11,6 +12,15 @@ export default class PlaylistIndex {
     private constructor() {
         if (PipeBombConnection.getInstance().getUrl()) {
             this.checkPlaylists();
+        } else {
+            (async () => {
+                while (!this.playlists && !PipeBombConnection.getInstance().getUrl()) {
+                    await wait(0.1);
+                }
+                if (!this.playlists) {
+                    this.checkPlaylists();
+                }
+            })();
         }
 
         setInterval(() => {

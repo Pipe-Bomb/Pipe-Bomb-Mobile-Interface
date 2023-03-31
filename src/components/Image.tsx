@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../styles/Image.module.scss";
 
 export interface ImageProps {
-    src: string | JSX.Element
+    src?: string | JSX.Element
 }
 
 export default function Image({ src }: ImageProps) {
@@ -12,12 +12,17 @@ export default function Image({ src }: ImageProps) {
 
     useEffect(() => {
         const element: any = thumbnail.current;
-        if (!element) return;
+        if (!element || !src) return;
         element.onload = () => {
             setHasImage(true);
         }
         element.src = src;
     }, [src]);
+
+    if (thumbnail.current) {
+        const element: any = thumbnail.current;
+        element.referrerPolicy = "no-referrer";
+    }
 
     return (
         <div className={styles.imageContainer}>

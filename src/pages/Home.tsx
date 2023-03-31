@@ -1,6 +1,7 @@
 import Collection from "pipebomb.js/dist/collection/Collection"
 import Track from "pipebomb.js/dist/music/Track";
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 import MiniTile from "../components/MiniTile";
 import PlaylistImage from "../components/PlaylistImage";
 import SideScroll from "../components/SideScroll";
@@ -27,7 +28,7 @@ export default function Home() {
     useEffect(() => {
         Account.getInstance().getUserData().then(setUserData);
 
-        if (recommendedTracks !== false) return;
+        if (recommendedTracks !== false || !PipeBombConnection.getInstance().getUrl()) return;
         setRecommendedTracks(null);
         const pb = PipeBombConnection.getInstance().getApi();
         pb.trackCache.getTrack("sc-698172412")
@@ -41,10 +42,12 @@ export default function Home() {
     function generateMiniTilePlaylists() {
         if (!playlists) return <h2>Loading</h2>;
         
-        const list = playlists.splice(-6);
+        const list = Array.from(playlists).splice(-6);
         
         return list.map((playlist, index) => {
-            return <MiniTile key={index} title={playlist.getName()} image={<PlaylistImage playlist={playlist} />} />
+            return <Link key={index} to={`/playlist/${playlist.collectionID}`}>
+                <MiniTile title={playlist.getName()} image={<PlaylistImage playlist={playlist} />} />
+            </Link>
         });
     }
 

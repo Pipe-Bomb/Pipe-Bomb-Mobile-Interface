@@ -103,3 +103,9 @@ export function generateHash(seed?: string | number) {
 
     return nextHash(numberSeed);
 }
+
+export function wait(time: number) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time * 1000);
+    });
+}

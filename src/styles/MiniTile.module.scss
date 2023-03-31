@@ -4,6 +4,7 @@
     align-items: center;
     background: var(--nextui-colors-backgroundSecondary);
     border-radius: var(--nextui-radii-lg) var(--nextui-radii-md) var(--nextui-radii-md) var(--nextui-radii-lg);
+    overflow: hidden;
 }
 
 .imageContainer {
@@ -23,4 +24,5 @@
     -webkit-line-clamp: 2;
     line-clamp: 2; 
     -webkit-box-orient: vertical;
+    color: var(--nextui-colors-foreground);
 }
