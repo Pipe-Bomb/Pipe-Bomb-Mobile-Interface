@@ -6,6 +6,7 @@ import AudioPlayer, { AudioPlayerStatus } from "../logic/AudioPlayer";
 import { TrackMeta } from "pipebomb.js/dist/music/Track";
 import { Text } from "@nextui-org/react";
 import { convertArrayToString } from "../logic/Utils";
+import { formatTime } from "../logic/Utils";
 
 let toggleFunction: (value: boolean) => void;
 
@@ -84,6 +85,11 @@ export default function PlayerCover() {
                     </Text>
                 </span>
             </div>
+            <div className={styles.waveformContainer}>
+
+            </div>
+            <span className={styles.time}>{ formatTime(status.time) }</span>
+            <span className={styles.duration}>{ formatTime(Math.max(status.duration, 0)) }</span>
         </div>
     )
 }
