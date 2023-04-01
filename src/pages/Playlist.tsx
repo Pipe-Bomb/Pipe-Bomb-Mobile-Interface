@@ -156,7 +156,7 @@ export default function Playlist() {
                 <div className={styles.content}>
                     <Text h1 className={styles.title}>{playlist.getName()}</Text>
                     {!isOwnPlaylist && (
-                        <Text h4>by {playlist.owner.username}</Text>
+                        <Text h4 className={styles.owner}>by {playlist.owner.username}</Text>
                     )}
                 </div>
             </div>

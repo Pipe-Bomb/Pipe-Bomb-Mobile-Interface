@@ -18,6 +18,7 @@ export default class PlaylistIndex {
                     await wait(0.1);
                 }
                 if (!this.playlists) {
+                    console.log("checking playlists");
                     this.checkPlaylists();
                 }
             })();

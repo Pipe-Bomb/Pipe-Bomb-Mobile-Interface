@@ -5,6 +5,7 @@ import PlaylistImage from "./PlaylistImage";
 import SideScroll from "./SideScroll";
 import Thumbnail from "./Thumbnail";
 import TrackThumbnail from "./TrackThumbnail";
+import AudioPlayer from "../logic/AudioPlayer";
 
 export interface SideScrollWrapperProps {
     playlists?: Collection[] | null | undefined | false;
@@ -35,7 +36,7 @@ export default function SideScrollWrapper(props: SideScrollWrapperProps) {
         }
         return <SideScroll title={props.title}>
             {props.tracks.map((track, index) => {
-                return <TrackThumbnail key={index} track={track} small />
+                return <TrackThumbnail key={index} track={track} small onClick={() => AudioPlayer.getInstance().playTrack(track)} />
             })}
         </SideScroll>
     }

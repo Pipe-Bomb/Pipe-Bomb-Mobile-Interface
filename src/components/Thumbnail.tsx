@@ -6,14 +6,15 @@ export interface ThumbnailProps {
     image: string | JSX.Element,
     title: string,
     subtitle?: string
-    small?: boolean
+    small?: boolean,
+    onClick?: () => void
 }
 
-export default function Thumbnail({ image, title, subtitle, small}: ThumbnailProps) {
+export default function Thumbnail({ image, title, subtitle, small, onClick}: ThumbnailProps) {
     const classNames = styles.container + (small ? " " + styles.small : "");
 
     return (
-        <div className={classNames}>
+        <div className={classNames} onClick={onClick}>
             <div className={styles.image}>
                 <Image src={image} />
             </div>
