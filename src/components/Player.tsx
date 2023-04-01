@@ -7,6 +7,7 @@ import { Text } from "@nextui-org/react";
 import { convertArrayToString } from "../logic/Utils";
 import IconButton from "./IconButton";
 import { MdPause, MdPlayArrow } from "react-icons/md";
+import { setPlayerOpen } from "./PlayerCover";
 
 export default function Player() {
     const audioPlayer = AudioPlayer.getInstance();
@@ -44,7 +45,7 @@ export default function Player() {
     const css = `calc((100% - 14px) * ${progress})`;
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={() => setPlayerOpen(true)}>
             <div className={styles.image}>
                 <Image src={trackMeta?.image} />
             </div>

@@ -1,0 +1,15 @@
+.container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    transform: translateY(0);
+    transition: transform 0.2s;
+    background: var(--nextui-colors-backgroundContrast);
+}
+
+.closed {
+    transform: translateY(100%);
+}

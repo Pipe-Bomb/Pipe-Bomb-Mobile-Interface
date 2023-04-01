@@ -6,6 +6,7 @@ import Connect from "./pages/Connect";
 import Head from "./components/Head";
 import Playlist from "./pages/Playlist";
 import Player from "./components/Player";
+import PlayerCover from "./components/PlayerCover";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route path="/playlist/:playlistID" element={<Playlist />} />
             </Routes>
             <Player />
+            <PlayerCover />
             <Dock />
           </div>
           </div>
