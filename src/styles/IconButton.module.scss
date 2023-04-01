@@ -9,4 +9,10 @@
         min-width: 40px !important;
         height: 40px !important;
     }
+
+    &.background {
+        background: #fff !important;
+        border-radius: 50%;
+        color: #000;
+    }
 }
