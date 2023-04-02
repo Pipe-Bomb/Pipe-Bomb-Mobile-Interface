@@ -61,7 +61,7 @@ export default function Waveform({ url, active, percent }: WaveformProps) {
                 for (let i = 0; i < segments; i++) {
                     ctx.strokeStyle = "#fff";
                     ctx.beginPath();
-                    const singleHeight = newCanvas.height / dpr * (1 - Math.pow(Math.sin(i / 2) / 10 + 0.6, 1.5));
+                    const singleHeight = newCanvas.height / dpr * (1 - Math.pow(Math.sin(i / 3) / 10 + 0.6, 1.5));
                     const newHeight = (height - singleHeight);
                     ctx.fillStyle = "#121212";
                     ctx.rect(i * singleWidth + 3, singleHeight + 3 + (newHeight * (1 - stage)), singleWidth - 4, newHeight * stage);
@@ -72,7 +72,7 @@ export default function Waveform({ url, active, percent }: WaveformProps) {
                 ctx.fillStyle = "#fff";
 
                 for (let i = 0; i < segments; i++) {
-                    const singleHeight = newCanvas.height / dpr * (1 - Math.pow(Math.sin(i / 2) / 10 + 0.6, 1.5));
+                    const singleHeight = newCanvas.height / dpr * (1 - Math.pow(Math.sin(i / 3) / 10 + 0.6, 1.5));
                     const newHeight = (height - singleHeight);
                     ctx.rect(i * singleWidth, Math.min(singleHeight + (newHeight * (1 - stage)), height), singleWidth - 4, newHeight * stage);
                     
