@@ -5,6 +5,10 @@
     position: relative;
     flex-grow: 0;
     flex-shrink: 0;
+
+    &.playing .background {
+        filter: blur(10px);
+    }
 }
 
 .closeButton {

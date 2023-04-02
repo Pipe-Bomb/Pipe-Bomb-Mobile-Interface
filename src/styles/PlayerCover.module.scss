@@ -9,10 +9,6 @@
     transition: transform 0.2s;
     background: var(--nextui-colors-backgroundContrast);
     display: flex;
-
-    &.playing .background {
-        filter: blur(10px);
-    }
 }
 
 .closed {

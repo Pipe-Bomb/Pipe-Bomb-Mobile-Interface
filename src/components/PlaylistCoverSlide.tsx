@@ -73,7 +73,7 @@ export default function PlaylistCoverSlide({ track, status }: PlaylistCoverSlide
 
 
     return (
-        <div className={styles.slide}>
+        <div className={styles.slide + (status && !status.paused ? ` ${styles.playing}` : "")}>
             <div className={styles.background} style={{
                 backgroundImage,
                 left: `${percentage}%`,
