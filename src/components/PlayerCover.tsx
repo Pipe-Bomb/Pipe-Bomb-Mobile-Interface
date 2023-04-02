@@ -114,7 +114,7 @@ export default function PlayerCover() {
     }
 
     return (
-        <div ref={container} className={styles.container + (isOpen ? "" : ` ${styles.closed}`) + (status.paused ? "" : ` ${styles.playing}`)} onClick={togglePlay} onTouchStart={regularMouseDown}>
+        <div ref={container} className={styles.container + (isOpen ? "" : ` ${styles.closed}`)} onClick={togglePlay} onTouchStart={regularMouseDown}>
             {status.track && (
                 <PlaylistCoverSlide track={status.track} />
             )}
