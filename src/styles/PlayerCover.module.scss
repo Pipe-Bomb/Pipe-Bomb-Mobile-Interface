@@ -2,13 +2,13 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: -100%;
+    width: 300%;
     z-index: 200;
     transform: translateY(0);
     transition: transform 0.2s;
     background: var(--nextui-colors-backgroundContrast);
-    overflow: hidden;
+    display: flex;
 
     &.playing .background {
         filter: blur(10px);
@@ -17,112 +17,4 @@
 
 .closed {
     transform: translateY(100%);
-}
-
-.closeButton {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-}
-
-.background {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-height: 100%;
-    min-width: 100%;
-    aspect-ratio: 1;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: filter 0.15s;
-    filter: blur(30px) brightness(0.8);
-    z-index: -1;
-}
-
-.topInfo {
-    margin: 1rem 70px 0 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.title {
-    background: #000;
-    display: inline;
-    line-height: 1.8rem;
-    font-size: var(--nextui-fontSizes-lg);
-    margin: 0;
-    padding: 0.2rem 0.4rem;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-    -moz-box-decoration-break: clone;
-    word-wrap: break-word;
-    word-break: break-word;
-}
-
-.artist {
-    background: #000;
-    color: var(--nextui-colors-accents7) !important;
-    display: inline;
-    line-height: 1rem;
-    font-size: var(--nextui-fontSizes-md);
-    margin: 0;
-    padding: 0.2rem 0.4rem;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-    -moz-box-decoration-break: clone;
-    word-wrap: break-word;
-    word-break: break-word;
-}
-
-.waveformMouseHandler {
-    position: absolute;
-    bottom: 50px;
-    height: 200px;
-    left: 0;
-    right: 0;
-    cursor: grab;
-
-    .waveformContainer {
-        position: relative;
-        width: 200%;
-        left: 50%;
-        height: 100px;
-        top: calc(50% - 50px);
-    }
-}
-
-.time {
-    position: absolute;
-    bottom: 100px;
-    left: 50%;
-    transform: translate(-100%, 100%);
-    background: #000;
-    padding: 0.1rem 0.2rem;
-    font-size: var(--nextui-fontSizes-xs);
-    color: #fff;
-    pointer-events: none;
-}
-
-.duration {
-    position: absolute;
-    bottom: 100px;
-    left: 50%;
-    transform: translateY(100%);
-    background: #000;
-    padding: 0.1rem 0.2rem;
-    font-size: var(--nextui-fontSizes-xs);
-    color: var(--nextui-colors-accents7);
-    pointer-events: none;
-
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: -1px;
-        width: 1px;
-        background: var(--nextui-colors-accents7);
-    }
 }
