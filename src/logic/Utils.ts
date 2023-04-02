@@ -109,3 +109,49 @@ export function wait(time: number) {
         setTimeout(resolve, time * 1000);
     });
 }
+
+export function preciseTime() {
+    return performance.now() || Date.now();
+}
+
+export function lerp(start: number, end: number, time: number, callback: (value: number) => void) {
+    const delta = end - start;
+    let ended = false;
+    const startTime = preciseTime();
+
+    function loop() {
+        if (ended) return;
+        requestAnimationFrame(loop);
+        const newTime = preciseTime();
+        const timeDifference = (newTime - startTime) / time;
+
+        if (timeDifference >= 1) {
+            ended = true;
+            callback(end);
+            return;
+        }
+
+        callback(start + delta * timeDifference);
+    }
+    loop();
+
+    setTimeout(() => {
+        if (ended) return;
+        ended = true;
+        callback(end);
+    }, time);
+
+    function prematureEnd() {
+        ended = true;
+        
+        const newTime = preciseTime();
+        const timeDifference = (newTime - startTime) / time;
+
+        if (timeDifference >= 1) {
+            return end;
+        }
+        return start + delta * timeDifference;
+    }
+
+    return prematureEnd;
+}

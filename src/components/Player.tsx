@@ -59,7 +59,6 @@ export default function Player() {
                 ) : (
                     <MdPause />
                 )}
-                
             </IconButton>
             <div className={styles.progress} style={{width: css}}></div>
         </div>

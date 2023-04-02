@@ -11,7 +11,7 @@
     overflow: hidden;
 
     &.playing .background {
-        filter: blur(5px);
+        filter: blur(10px);
     }
 }
 
@@ -76,13 +76,21 @@
     word-break: break-word;
 }
 
-.waveformContainer {
+.waveformMouseHandler {
     position: absolute;
-    bottom: 100px;
-    height: 100px;
-    width: 200%;
-    background: blue;
-    left: 50%;
+    bottom: 50px;
+    height: 200px;
+    left: 0;
+    right: 0;
+    cursor: grab;
+
+    .waveformContainer {
+        position: relative;
+        width: 200%;
+        left: 50%;
+        height: 100px;
+        top: calc(50% - 50px);
+    }
 }
 
 .time {
@@ -94,6 +102,7 @@
     padding: 0.1rem 0.2rem;
     font-size: var(--nextui-fontSizes-xs);
     color: #fff;
+    pointer-events: none;
 }
 
 .duration {
@@ -105,6 +114,7 @@
     padding: 0.1rem 0.2rem;
     font-size: var(--nextui-fontSizes-xs);
     color: var(--nextui-colors-accents7);
+    pointer-events: none;
 
     &::before {
         content: "";
