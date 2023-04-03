@@ -3,7 +3,7 @@ import styles from "../styles/Waveform.module.scss";
 import { lerp } from "../logic/Utils";
 
 export interface WaveformProps {
-    url: string,
+    url?: string | null,
     active?: boolean,
     percent: number
 }
@@ -18,6 +18,7 @@ export default function Waveform({ url, active, percent }: WaveformProps) {
     const loaded = useRef(false);
     const canvas = useRef(null);
     const currentLerp = useRef<() => number>(() => 0);
+    const currentUrl = useRef(url);
 
     function filterData(audioBuffer: AudioBuffer) {
         const rawData = audioBuffer.getChannelData(0); // We only need to work with one channel of data
@@ -167,14 +168,22 @@ export default function Waveform({ url, active, percent }: WaveformProps) {
     }
     
     useEffect(() => {
+        currentUrl.current = url;
+
         const ctx = new AudioContext();
         loaded.current = false;
         draw([], active ? 1 : 0);
 
+        if (!url) return;
+
         fetch(url)
         .then(response => response.arrayBuffer())
-        .then(arrayBuffer => ctx.decodeAudioData(arrayBuffer))
-        .then(audioBuffer => visualize(audioBuffer))
+        .then(async arrayBuffer => {
+            if (currentUrl.current != url) return;
+            const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+            if (currentUrl.current != url) return;
+            visualize(audioBuffer);            
+        });
     }, [url]);
 
     return (

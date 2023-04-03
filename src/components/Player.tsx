@@ -45,22 +45,25 @@ export default function Player() {
     const css = `calc((100% - 14px) * ${progress})`;
 
     return (
-        <div className={styles.container} onClick={() => setPlayerOpen(true)}>
-            <div className={styles.image}>
-                <Image src={trackMeta?.image} />
+        <>
+            <div className={styles.container} onClick={() => setPlayerOpen(true)}>
+                <div className={styles.image}>
+                    <Image src={trackMeta?.image} />
+                </div>
+                <div className={styles.info}>
+                    <Text h3 className={styles.title}>{trackMeta?.title}</Text>
+                    <Text h4 className={styles.artist}>{ convertArrayToString(trackMeta?.artists || []) }</Text>
+                </div>
+                <IconButton onPress={togglePlay}>
+                    {status.paused ? (
+                        <MdPlayArrow />
+                    ) : (
+                        <MdPause />
+                    )}
+                </IconButton>
+                <div className={styles.progress} style={{width: css}}></div>
             </div>
-            <div className={styles.info}>
-                <Text h3 className={styles.title}>{trackMeta?.title}</Text>
-                <Text h4 className={styles.artist}>{ convertArrayToString(trackMeta?.artists || []) }</Text>
-            </div>
-            <IconButton onPress={togglePlay}>
-                {status.paused ? (
-                    <MdPlayArrow />
-                ) : (
-                    <MdPause />
-                )}
-            </IconButton>
-            <div className={styles.progress} style={{width: css}}></div>
-        </div>
+            <div className={styles.spacer}></div>
+        </>
     )
 }

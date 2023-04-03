@@ -10,6 +10,10 @@ import PlayerCover from "./components/PlayerCover";
 import PipeBombConnection from "./logic/PipeBombConnection";
 import ServerIndex from "./logic/ServerIndex";
 import Account from "./logic/Account";
+import { useEffect } from "react";
+import Library from "./pages/Library";
+import Explore from "./pages/Explore";
+import Search from "./pages/Search";
 
 let needsConnect = false;
 
@@ -32,10 +36,12 @@ Account.getInstance();
 function App() {
   const navigate = useNavigate();
 
-  if (needsConnect) {
-    needsConnect = false;
-    navigate("/connect");
-  }
+  useEffect(() => {
+    if (needsConnect) {
+      needsConnect = false;
+      navigate("/connect");
+    }
+  }, []);
 
   return (
     <>
@@ -45,14 +51,17 @@ function App() {
           <div className={styles.flex}>
             <Head />
             <div className={styles.content}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/playlist/:playlistID" element={<Playlist />} />
-            </Routes>
-            <Player />
-            <PlayerCover />
-            <Dock />
-          </div>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/playlist/:playlistID" element={<Playlist />} />
+                <Route path="/library" element={<Library />} />
+                <Route path="/explore" element={<Explore />} />
+                <Route path="/search" element={<Search />} />
+              </Routes>
+              <Player />
+              <PlayerCover />
+              <Dock />
+            </div>
           </div>
         } />
       </Routes>

@@ -1,6 +1,12 @@
 .container {
     padding: 10px !important;
     justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(0deg, transparent 0%, var(--nextui-colors-background) 70%);
+    z-index: 98;
 }
 
 .avatar {

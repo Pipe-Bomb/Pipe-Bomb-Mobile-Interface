@@ -71,6 +71,7 @@ export default function PlaylistCoverSlide({ track, status }: PlaylistCoverSlide
         document.addEventListener("touchend", mouseUp);
     }
 
+    const audioUrl = status?.track ? `${PipeBombConnection.getInstance().getUrl()}/v1/audio/${status.track.trackID}` : null;
 
     return (
         <div className={styles.slide + (status && !status.paused ? ` ${styles.playing}` : "")}>
@@ -98,7 +99,7 @@ export default function PlaylistCoverSlide({ track, status }: PlaylistCoverSlide
             </div>
             <div className={styles.waveformMouseHandler} onTouchStart={waveformMouseDown}>
                 <div ref={status ? waveform : null} className={styles.waveformContainer} style={{transform: `translateX(${-percentage}%)`}}>
-                    <Waveform url={`${PipeBombConnection.getInstance().getUrl()}/v1/audio/${status?.track?.trackID}`} active={status ? !status.paused : false} percent={percentage} />
+                    <Waveform url={audioUrl} active={status ? !status.paused : false} percent={percentage} />
                 </div>
             </div>
             <span className={styles.time}>{ formatTime(status ? Math.max(0, status.duration * percentage / 100) : 0) }</span>

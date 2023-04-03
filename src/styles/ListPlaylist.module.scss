@@ -1,0 +1,58 @@
+.container {
+    display: flex;
+    margin: var(--nextui-space-5) 1rem;
+    background: var(--nextui-colors-backgroundSecondary);
+    border-radius: var(--nextui-radii-base);
+    color: var(--nextui-colors-text);
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    cursor: pointer;
+}
+
+.imageContainer {
+    width: 50px;
+    height: 50px;
+    background: var(--nextui-colors-waitingBackground);
+    flex-shrink: 0;
+    margin-right: var(--nextui-space-8);
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    cursor: pointer;
+}
+
+.info {
+    width: calc(100% - 100px - var(--nextui-space-8));
+    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title {
+    font-size: var(--nextui-fontSizes-md);
+    margin-top: -2px;
+    font-weight: var(--nextui-fontWeights-semibold);
+    word-wrap: break-word;
+    min-width: auto;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+}
+
+.subtitle {
+    display: block;
+    color: var(--nextui-colors-accents7);
+    font-size: var(--nextui-fontSizes-xs);
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+}
