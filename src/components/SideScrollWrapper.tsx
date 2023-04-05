@@ -1,4 +1,3 @@
-import Collection from "pipebomb.js/dist/collection/Collection";
 import Track from "pipebomb.js/dist/music/Track";
 import { Link } from "react-router-dom";
 import PlaylistImage from "./PlaylistImage";
@@ -6,9 +5,10 @@ import SideScroll from "./SideScroll";
 import Thumbnail from "./Thumbnail";
 import TrackThumbnail from "./TrackThumbnail";
 import AudioPlayer from "../logic/AudioPlayer";
+import Playlist from "pipebomb.js/dist/collection/Playlist";
 
 export interface SideScrollWrapperProps {
-    playlists?: Collection[] | null | undefined | false;
+    playlists?: Playlist[] | null | undefined | false;
     tracks?: Track[] | null | undefined | false;
     title: string
 }

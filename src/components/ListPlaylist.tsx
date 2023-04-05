@@ -1,10 +1,10 @@
-import Collection from "pipebomb.js/dist/collection/Collection";
 import PlaylistImage from "./PlaylistImage";
 import styles from "../styles/ListPlaylist.module.scss";
 import { Link } from "react-router-dom";
+import Playlist from "pipebomb.js/dist/collection/Playlist";
 
 export interface ListPlaylistProps {
-    playlist: Collection
+    playlist: Playlist
 }
 
 export default function ListPlaylist({ playlist }: ListPlaylistProps) {

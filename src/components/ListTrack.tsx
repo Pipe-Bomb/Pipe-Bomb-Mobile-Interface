@@ -1,14 +1,14 @@
-import Collection from "pipebomb.js/dist/collection/Collection";
 import Track, { TrackMeta } from "pipebomb.js/dist/music/Track";
 import { useEffect, useState } from "react";
 import Image from "./Image";
 import styles from "../styles/ListTrack.module.scss";
 import { convertArrayToString } from "../logic/Utils";
 import AudioPlayer from "../logic/AudioPlayer";
+import Playlist from "pipebomb.js/dist/collection/Playlist";
 
 interface ListTrackProps {
     track: Track,
-    parentPlaylist?: Collection
+    parentPlaylist?: Playlist
   }
 
 export default function ListTrack({ track }: ListTrackProps) {

@@ -1,14 +1,14 @@
-import Collection from "pipebomb.js/dist/collection/Collection";
 import { generateMeshGradient } from "meshgrad";
 import styles from "../styles/PlaylistImage.module.scss";
 import { useEffect, useState } from "react";
 import PipeBombConnection from "../logic/PipeBombConnection";
 import LazyImage from "./LazyImage";
+import Playlist from "pipebomb.js/dist/collection/Playlist";
 
 const meshes: Map<string, {[key: string]: string}> = new Map();
 
 export interface PlaylistImageProps {
-    playlist: Collection
+    playlist: Playlist
 }
 
 export default function PlaylistImage({ playlist }: PlaylistImageProps) {

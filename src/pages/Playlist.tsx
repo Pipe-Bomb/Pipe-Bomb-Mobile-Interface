@@ -1,11 +1,9 @@
 import { Button, Grid, Text } from "@nextui-org/react";
-import Collection from "pipebomb.js/dist/collection/Collection";
 import Track from "pipebomb.js/dist/music/Track";
 import { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { MdPlayArrow, MdShuffle } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import IconButton from "../components/IconButton";
 import ListTrack from "../components/ListTrack";
 import Loader from "../components/Loader";
 import Account, { UserDataFormat } from "../logic/Account";
@@ -15,6 +13,7 @@ import styles from "../styles/Playlist.module.scss";
 import PlaylistImage from "../components/PlaylistImage";
 import AudioPlayer from "../logic/AudioPlayer";
 import { shuffle } from "../logic/Utils";
+import PipeBombPlaylist from "pipebomb.js/dist/collection/Playlist";
 
 let lastPlaylistID = "";
 
@@ -22,7 +21,7 @@ export default function Playlist() {
     let paramID: any = useParams().playlistID;
     const audioPlayer = AudioPlayer.getInstance();
 
-    const [playlist, setPlaylist] = useState<Collection | null>(null);
+    const [playlist, setPlaylist] = useState<PipeBombPlaylist | null>(null);
     const [trackList, setTrackList] = useState<Track[] | null | false>(false);
     const [errorCode, setErrorCode] = useState(0);
     const [selfInfo, setSelfInfo] = useState<UserDataFormat | null>(null);
@@ -30,7 +29,7 @@ export default function Playlist() {
 
     const playlistID: string = paramID;
 
-    const callback = (collection: Collection) => {
+    const callback = (collection: PipeBombPlaylist) => {
         if (!collection) return;
         collection.getTrackList(PipeBombConnection.getInstance().getApi().trackCache)
         .then(tracks => {

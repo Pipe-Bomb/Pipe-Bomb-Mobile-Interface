@@ -20,6 +20,9 @@
     margin: 0;
     font-size: var(--nextui-fontSizes-sm);
     color: var(--nextui-colors-accents7) !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .small {
