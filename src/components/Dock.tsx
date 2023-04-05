@@ -11,17 +11,17 @@ export default function Dock() {
         <>
             <Grid.Container className={styles.container} justify="space-evenly" alignItems="center">
                 <Grid className={iconStyle.icon}>
-                    <Link to="/">
+                    <Link to="/" className={styles.button}>
                         <AiOutlineHome />
                     </Link>
                 </Grid>
                 <Grid className={iconStyle.icon}>
-                    <Link to="/explore">
+                    <Link to="/explore" className={styles.button}>
                         <AiOutlineCompass />
                     </Link>
                 </Grid>
                 <Grid className={iconStyle.icon}>
-                    <Link to="/library">
+                    <Link to="/library" className={styles.button}>
                         <VscLibrary />
                     </Link>
                 </Grid>
