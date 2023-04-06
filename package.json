@@ -13,7 +13,7 @@
     "axios": "^1.3.4",
     "js-cookie": "^3.0.1",
     "meshgrad": "^0.0.10",
-    "pipebomb.js": "https://github.com/pipe-bomb/pipebomb.js/archive/0.2.5.tar.gz",
+    "pipebomb.js": "^0.2.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
