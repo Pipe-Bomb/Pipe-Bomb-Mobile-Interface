@@ -10,6 +10,7 @@ import Waveform from "./Waveform";
 import PipeBombConnection from "../logic/PipeBombConnection";
 import { setPlayerOpen } from "./PlayerCover";
 import LazyImage from "./LazyImage";
+import { MdPause, MdSkipNext, MdSkipPrevious } from "react-icons/md";
 
 export interface PlaylistCoverSlideProps {
     track: Track,
@@ -98,10 +99,23 @@ export default function PlaylistCoverSlide({ track, status }: PlaylistCoverSlide
                     </Text>
                 </span>
             </div>
-            <div className={styles.thumbnailContainer + (status?.paused ? ` ${styles.thumbnailEnabled}` : "")}>
+            <div className={styles.thumbnailContainer + (status?.paused !== false ? ` ${styles.thumbnailEnabled}` : "")}>
                 <div className={styles.thumbnail}>
                     <LazyImage src={trackMeta?.image} />
                 </div>
+                {status?.paused !== false ? (
+                    <div className={styles.buttons}>
+                        <IconButton onPress={() => AudioPlayer.getInstance().previousTrack()}>
+                            <MdSkipPrevious />
+                        </IconButton>
+                        <IconButton onPress={() => AudioPlayer.getInstance().play()}>
+                            <MdPause />
+                        </IconButton>
+                        <IconButton onPress={() => AudioPlayer.getInstance().nextTrack()}>
+                            <MdSkipNext />
+                        </IconButton>
+                    </div>
+                ) : null}
             </div>
             <div className={styles.waveformMouseHandler} onTouchStart={waveformMouseDown}>
                 <div ref={status ? waveform : null} className={styles.waveformContainer} style={{transform: `translateX(${-percentage}%)`}}>

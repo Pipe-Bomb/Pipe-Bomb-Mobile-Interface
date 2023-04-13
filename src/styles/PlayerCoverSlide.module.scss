@@ -42,7 +42,7 @@
 .title {
     background: #000;
     display: inline;
-    line-height: 1.8rem;
+    line-height: 1.7rem;
     font-size: var(--nextui-fontSizes-lg);
     margin: 0;
     padding: 0.2rem 0.4rem;
@@ -122,20 +122,16 @@
 .thumbnailContainer {
     position: absolute;
     top: 100px;
-    bottom: 250px;
+    bottom: 200px;
     left: 50px;
     right: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
     pointer-events: none;
 
     .thumbnail {
         opacity: 0;
         position: absolute;
         top: 50%;
-        bottom: -50%;
+        bottom: calc(-50% + 50px);
         left: 50%;
         right: -50%;
         transform: translate(-50%, calc(-50% + 20px));
@@ -146,5 +142,16 @@
     &.thumbnailEnabled .thumbnail {
         opacity: 1;
         transform: translate(-50%, -50%);
+    }
+
+    .buttons {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
     }
 }
