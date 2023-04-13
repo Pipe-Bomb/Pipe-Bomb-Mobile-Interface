@@ -23,6 +23,7 @@ let contextMenuInfo: ContextMenuInfo;
 export function openContextMenu(info: ContextMenuInfo) {
     if (setMenuOpen) {
         contextMenuInfo = info;
+        window.navigator.vibrate(20);
         setMenuOpen(true);
     }
 }
