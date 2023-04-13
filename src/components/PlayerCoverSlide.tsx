@@ -17,7 +17,7 @@ export interface PlaylistCoverSlideProps {
     status?: AudioPlayerStatus
 }
 
-export default function PlaylistCoverSlide({ track, status }: PlaylistCoverSlideProps) {
+export default function PlayerCoverSlide({ track, status }: PlaylistCoverSlideProps) {
     const [trackMeta, setTrackMeta] = useState<TrackMeta | null>(null);
     const waveform = useRef(null);
     const [tempPercentChange, setTempPercentChange] = useState<number | null>(null);

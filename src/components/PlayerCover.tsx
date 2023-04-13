@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../styles/PlayerCover.module.scss";
 import AudioPlayer, { AudioPlayerStatus } from "../logic/AudioPlayer";
 import { lerp } from "../logic/Utils";
-import PlaylistCoverSlide from "./PlaylistCoverSlide";
+import PlayerCoverSlide from "./PlayerCoverSlide";
 
 let toggleFunction: (value: boolean) => void;
 
@@ -116,13 +116,13 @@ export default function PlayerCover() {
     return (
         <div ref={container} className={styles.container + (isOpen ? "" : ` ${styles.closed}`)} onClick={togglePlay} onTouchStart={regularMouseDown}>
             {status.track && (
-                <PlaylistCoverSlide track={status.track} />
+                <PlayerCoverSlide track={status.track} />
             )}
             {status.track && (
-                <PlaylistCoverSlide track={status.track} status={status} />
+                <PlayerCoverSlide track={status.track} status={status} />
             )}
             {status.track && (
-                <PlaylistCoverSlide track={status.queue[0] || status.track} />
+                <PlayerCoverSlide track={status.queue[0] || status.track} />
             )}
         </div>
     )

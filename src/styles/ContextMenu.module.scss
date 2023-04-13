@@ -1,0 +1,108 @@
+.container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    background: var(--nextui-colors-backgroundSecondary);
+    z-index: 201;
+
+    transform: translateY(100%);
+    transition: transform 0.2s;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000;
+    opacity: 0;
+    z-index: 200;
+    pointer-events: none;
+}
+
+.open {
+    .container {
+        transform: translateY(0);
+    }
+
+    .background {
+        opacity: 0.5;
+        pointer-events: all;
+    }
+}
+
+.header {
+    height: 60px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 1rem calc(0.5rem + 1px) 1rem;
+    gap: 1rem;
+    position: relative;
+
+    .image {
+        height: 50px;
+        width: 50px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        background: var(--nextui-colors-waitingBackground);
+        border-radius: var(--nextui-radii-base);
+        border: 2px solid var(--nextui-colors-border);
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        overflow: hidden;
+    }
+
+    .info {
+        flex-grow: 1;
+        max-width: calc(100% - 50px - 1rem);
+
+        h3 {
+            font-size: var(--nextui-fontSizes-lg);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        h4 {
+            font-size: var(--nextui-fontSizes-md);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: var(--nextui-colors-accents7);
+            margin: 0;
+        }
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: calc(-0.5rem - 1px);
+        height: 1px;
+        left: 0;
+        right: 0;
+        background: var(--nextui-colors-border);
+    }
+}
+
+.button {
+    width: 100% !important;
+    border-radius: 0 !important;
+    justify-content: left !important;
+
+    .icon {
+        font-size: 1.4em;
+        margin-right: 5px;
+
+        & > svg {
+            margin: 0;
+            position: relative;
+            top: 4px;
+        }
+    }
+}

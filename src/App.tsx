@@ -16,6 +16,7 @@ import Explore from "./pages/Explore";
 import Search from "./pages/Search";
 import Chart from "./pages/Chart";
 import Charts from "./pages/Charts";
+import ContextMenu from "./components/ContextMenu";
 
 let needsConnect = false;
 
@@ -75,6 +76,7 @@ function App() {
                               <Player />
                               <PlayerCover />
                               <Dock />
+                              <ContextMenu />
                           </div>
                     </div>
                 } />
