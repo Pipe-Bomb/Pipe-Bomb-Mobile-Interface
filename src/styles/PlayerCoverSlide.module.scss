@@ -118,3 +118,33 @@
         background: var(--nextui-colors-accents7);
     }
 }
+
+.thumbnailContainer {
+    position: absolute;
+    top: 100px;
+    bottom: 250px;
+    left: 50px;
+    right: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    pointer-events: none;
+
+    .thumbnail {
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        bottom: -50%;
+        left: 50%;
+        right: -50%;
+        transform: translate(-50%, calc(-50% + 20px));
+        aspect-ratio: 1 / 1;
+        transition: opacity 0.2s, transform 0.2s;
+    }
+
+    &.thumbnailEnabled .thumbnail {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}

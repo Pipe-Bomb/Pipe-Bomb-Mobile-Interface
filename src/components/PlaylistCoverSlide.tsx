@@ -9,6 +9,7 @@ import { convertArrayToString, formatTime } from "../logic/Utils";
 import Waveform from "./Waveform";
 import PipeBombConnection from "../logic/PipeBombConnection";
 import { setPlayerOpen } from "./PlayerCover";
+import LazyImage from "./LazyImage";
 
 export interface PlaylistCoverSlideProps {
     track: Track,
@@ -96,6 +97,11 @@ export default function PlaylistCoverSlide({ track, status }: PlaylistCoverSlide
                         { convertArrayToString(trackMeta?.artists || []) }
                     </Text>
                 </span>
+            </div>
+            <div className={styles.thumbnailContainer + (status?.paused ? ` ${styles.thumbnailEnabled}` : "")}>
+                <div className={styles.thumbnail}>
+                    <LazyImage src={trackMeta?.image} />
+                </div>
             </div>
             <div className={styles.waveformMouseHandler} onTouchStart={waveformMouseDown}>
                 <div ref={status ? waveform : null} className={styles.waveformContainer} style={{transform: `translateX(${-percentage}%)`}}>

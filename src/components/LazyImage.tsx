@@ -2,7 +2,7 @@ import { useRef } from "react";
 import styles from "../styles/LazyImage.module.scss";
 
 interface Props {
-    src: string
+    src: string | undefined | null
     className?: string
 }
 
@@ -19,6 +19,8 @@ export default function LazyImage({ src, className }: Props) {
             image.current.style.opacity = "1";
         }
     }
+
+    if (!src) return null;
 
     return (
         <img ref={image} className={className + " " + styles.image} src={src} onLoad={load} />

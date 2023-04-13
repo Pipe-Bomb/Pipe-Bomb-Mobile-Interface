@@ -21,11 +21,13 @@
     margin-bottom: 1rem;
     display: flex;
     overflow-y: scroll;
+    scroll-snap-type: x mandatory;
 
     .split {
         width: calc(100% - 2rem);
         flex-grow: 0;
         flex-shrink: 0;
+        scroll-snap-align: center;
     }
 }
 
