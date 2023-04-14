@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../styles/ContextMenu.module.scss";
 import { Button, Text } from "@nextui-org/react";
-import { IconType } from "react-icons";
 
 let setMenuOpen: (open: boolean) => void;
 
 export interface ContextMenuEntry {
     icon: JSX.Element,
     name: string,
+    disabled?: boolean
     onPress: () => boolean
 }
 
@@ -30,12 +30,31 @@ export function openContextMenu(info: ContextMenuInfo) {
 
 export default function ContextMenu() {
     const [open, setOpen] = useState(false);
+    const [closing, setClosing] = useState(false);
 
     setMenuOpen = setOpen;
 
+    function close() {
+        setClosing(true);
+        setOpen(false);
+        setTimeout(() => {
+            setClosing(false);
+        }, 50);
+    }
+
+    function tap(e: React.TouchEvent) {
+        e.stopPropagation();
+
+        document.addEventListener("touchend", close, { once: true });
+    }
+
+    function runAction(action: () => boolean) {
+        if (!action()) close();
+    }
+
     return (
         <div className={open ? styles.open : ""}>
-            <div className={styles.background} onTouchStart={() => setOpen(false)} onClick={() => setOpen(false)}></div>
+            <div className={styles.background + (closing ? ` ${styles.closing}` : "")} onTouchStart={tap}></div>
             <div className={styles.container}>
                 <div className={styles.header}>
                     {contextMenuInfo?.image && (
@@ -51,7 +70,7 @@ export default function ContextMenu() {
                     </div>
                 </div>
                 {contextMenuInfo?.options.map((data, index) => (
-                    <Button key={index} className={styles.button} onPress={data.onPress} light size="lg"><span className={styles.icon}>{data.icon}</span> {data.name}</Button>
+                    <Button key={index} disabled={data.disabled} className={styles.button} onPress={() => runAction(data.onPress)} light size="lg"><span className={styles.icon}>{data.icon}</span> {data.name}</Button>
                 ))}
             </div>
         </div>

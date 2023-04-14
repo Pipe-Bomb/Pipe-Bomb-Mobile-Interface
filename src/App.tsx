@@ -17,6 +17,8 @@ import Search from "./pages/Search";
 import Chart from "./pages/Chart";
 import Charts from "./pages/Charts";
 import ContextMenu from "./components/ContextMenu";
+import AddToPlaylist from "./components/AddToPlaylist";
+import CreatePlaylist from "./components/CreatePlaylist";
 
 let needsConnect = false;
 
@@ -61,22 +63,24 @@ function App() {
                 <Route path="*" element={
                     <div className={styles.flex}>
                         <Head />
-                          <div ref={content} className={styles.content}>
-                              <Routes>
-                                  <Route path="/" element={<Home />} />
-                                  <Route path="/playlist/:playlistID" element={<Playlist />} />
-                                  <Route path="/charts">
-                                      <Route index element={<Charts />} />
-                                      <Route path=":chartID" element={<Chart />}></Route>
-                                  </Route>
-                                  <Route path="/library" element={<Library />} />
-                                  <Route path="/explore" element={<Explore />} />
-                                  <Route path="/search" element={<Search />} />
-                              </Routes>
-                              <Player />
-                              <PlayerCover />
-                              <Dock />
-                              <ContextMenu />
+                            <div ref={content} className={styles.content}>
+                                <Routes>
+                                    <Route path="/" element={<Home />} />
+                                    <Route path="/playlist/:playlistID" element={<Playlist />} />
+                                    <Route path="/charts">
+                                        <Route index element={<Charts />} />
+                                        <Route path=":chartID" element={<Chart />}></Route>
+                                    </Route>
+                                    <Route path="/library" element={<Library />} />
+                                    <Route path="/explore" element={<Explore />} />
+                                    <Route path="/search" element={<Search />} />
+                                </Routes>
+                                <Player />
+                                <PlayerCover />
+                                <Dock />
+                                <ContextMenu />
+                                <AddToPlaylist />
+                                <CreatePlaylist />
                           </div>
                     </div>
                 } />

@@ -10,7 +10,7 @@ import Waveform from "./Waveform";
 import PipeBombConnection from "../logic/PipeBombConnection";
 import { setPlayerOpen } from "./PlayerCover";
 import LazyImage from "./LazyImage";
-import { MdPause, MdSkipNext, MdSkipPrevious } from "react-icons/md";
+import { MdPlayArrow, MdSkipNext, MdSkipPrevious } from "react-icons/md";
 
 export interface PlaylistCoverSlideProps {
     track: Track,
@@ -105,13 +105,13 @@ export default function PlayerCoverSlide({ track, status }: PlaylistCoverSlidePr
                 </div>
                 {status?.paused !== false ? (
                     <div className={styles.buttons}>
-                        <IconButton onPress={() => AudioPlayer.getInstance().previousTrack()}>
+                        <IconButton onPress={() => AudioPlayer.getInstance().previousTrack()} small>
                             <MdSkipPrevious />
                         </IconButton>
                         <IconButton onPress={() => AudioPlayer.getInstance().play()}>
-                            <MdPause />
+                            <MdPlayArrow />
                         </IconButton>
-                        <IconButton onPress={() => AudioPlayer.getInstance().nextTrack()}>
+                        <IconButton onPress={() => AudioPlayer.getInstance().nextTrack()} small>
                             <MdSkipNext />
                         </IconButton>
                     </div>

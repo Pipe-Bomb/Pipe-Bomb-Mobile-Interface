@@ -5,16 +5,17 @@ import styles from "../styles/ListTrack.module.scss";
 import { convertArrayToString } from "../logic/Utils";
 import AudioPlayer from "../logic/AudioPlayer";
 import Playlist from "pipebomb.js/dist/collection/Playlist";
-import { openContextMenu } from "./ContextMenu";
+import { ContextMenuEntry, openContextMenu } from "./ContextMenu";
 import LazyImage from "./LazyImage";
-import { MdOutlinePlaylistAdd } from "react-icons/md";
+import { MdOutlineFileDownload, MdOutlinePlaylistAdd, MdOutlinePlaylistRemove, MdPlaylistPlay, MdQueueMusic } from "react-icons/md";
+import { openAddToPlaylist } from "./AddToPlaylist";
 
 interface ListTrackProps {
     track: Track,
     parentPlaylist?: Playlist
-  }
+}
 
-export default function ListTrack({ track }: ListTrackProps) {
+export default function ListTrack({ track, parentPlaylist }: ListTrackProps) {
     const [metadata, setMetadata] = useState<TrackMeta | null>(null);
     const container = useRef<HTMLDivElement>(null);
 
@@ -35,32 +36,58 @@ export default function ListTrack({ track }: ListTrackProps) {
 
             const touchStart = () => {
                 timer = setTimeout(() => {
+                    const options: ContextMenuEntry[] = [
+                        {
+                            icon: <MdPlaylistPlay />,
+                            name: "Play next",
+                            onPress: () => {
+                                AudioPlayer.getInstance().addToQueue([track], 0);
+                                return false;
+                            }
+                        },
+                        {
+                            icon: <MdQueueMusic />,
+                            name: "Add to queue",
+                            onPress: () => {
+                                AudioPlayer.getInstance().addToQueue([track]);
+                                return false;
+                            }
+                        },
+                        {
+                            icon: <MdOutlinePlaylistAdd />,
+                            name: "Add to playlist",
+                            onPress: () => {
+                                setTimeout(() => {
+                                    openAddToPlaylist(track);
+                                }, 100);
+                                return false;
+                            }
+                        },
+                        {
+                            icon: <MdOutlineFileDownload />,
+                            name: "Download",
+                            disabled: true,
+                            onPress: () => false
+                        }
+                    ];
+
+                    if (parentPlaylist) {
+                        options.push({
+                            icon: <MdOutlinePlaylistRemove />,
+                            name: "Remove from playlist",
+                            onPress: () => {
+                                parentPlaylist.removeTracks(track);
+                                return false;
+                            }
+                        });
+                    }
+
+
                     openContextMenu({
                         title: metadata?.title || track.trackID,
                         subtitle: convertArrayToString(metadata?.artists || []),
                         image: metadata?.image ? <LazyImage src={metadata?.image} /> : null,
-                        options: [
-                            {
-                                icon: <MdOutlinePlaylistAdd />,
-                                name: "Cool New Entry",
-                                onPress: () => false
-                            },
-                            {
-                                icon: <MdOutlinePlaylistAdd />,
-                                name: "Cool New Entry",
-                                onPress: () => false
-                            },
-                            {
-                                icon: <MdOutlinePlaylistAdd />,
-                                name: "Cool New Entry",
-                                onPress: () => false
-                            },
-                            {
-                                icon: <MdOutlinePlaylistAdd />,
-                                name: "Cool New Entry",
-                                onPress: () => false
-                            }
-                        ]
+                        options
                     });
                 }, 300);
             }

@@ -1,0 +1,32 @@
+.playlist {
+    margin: 0 0 1rem 0;
+    display: flex;
+    flex-direction: row;
+    background: var(--nextui-colors-backgroundSecondary);
+    border-radius: var(--nextui-radii-base);
+    align-items: center;
+
+    &:hover {
+        background: var(--nextui-colors-secondaryLightHover);
+    }
+
+    .name {
+        display: inline;
+        flex-grow: 1;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: var(--nextui-fontSizes-lg);
+        margin-left: 0.5rem;
+        margin-right: 1rem;
+    }
+
+    .add {
+        display: inline-block;
+    }
+
+    h3 {
+        margin: 0;
+    }
+}

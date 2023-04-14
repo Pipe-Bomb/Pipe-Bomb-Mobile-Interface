@@ -24,10 +24,14 @@
     scroll-snap-type: x mandatory;
 
     .split {
-        width: calc(100% - 2rem);
+        width: 100%;
         flex-grow: 0;
         flex-shrink: 0;
         scroll-snap-align: center;
+
+        &:first-of-type {
+            width: calc(100% - 2rem);
+        }
     }
 }
 

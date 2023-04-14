@@ -3,7 +3,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 400px;
     background: var(--nextui-colors-backgroundSecondary);
     z-index: 201;
 
@@ -21,6 +20,13 @@
     opacity: 0;
     z-index: 200;
     pointer-events: none;
+
+    transition: opacity 0.2s;
+}
+
+.closing {
+    opacity: 0.5;
+    pointer-events: all;
 }
 
 .open {
@@ -70,12 +76,13 @@
         }
 
         h4 {
-            font-size: var(--nextui-fontSizes-md);
+            font-size: var(--nextui-fontSizes-sm);
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
             color: var(--nextui-colors-accents7);
-            margin: 0;
+            margin: -5px 0 0 0;
+            font-weight: var(--nextui-fontWeights-md);
         }
     }
 

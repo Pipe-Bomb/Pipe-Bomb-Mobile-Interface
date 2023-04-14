@@ -92,12 +92,10 @@ export default class AudioPlayer {
         };
         
         this.audio.onended = () => {
-            console.log("track ended, next song");
             const nextTrack = this.status.queue.shift();
             if (nextTrack) {
                 this.playTrack(nextTrack, true);
             } else {
-                console.log("not next");
                 this.status.paused = true;
                 this.sendCallbacks();
             }
@@ -233,6 +231,10 @@ export default class AudioPlayer {
             this.status.queue.splice(position, 0, ...tracks);
         } else {
             this.status.queue.push(...tracks);
+        }
+        if (!this.status.track) {
+            this.nextTrack();
+            this.pause();
         }
         this.sendCallbacks();
     }
