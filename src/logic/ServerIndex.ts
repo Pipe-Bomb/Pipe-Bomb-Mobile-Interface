@@ -115,7 +115,7 @@ export default class ServerIndex {
             https: false,
             name: "New Server"
         };
-        this.servers.push(tempInfo);
+        this.servers.unshift(tempInfo);
         this.statuses.set(tempInfo.host, "checking");
         await this.checkServer(tempInfo);
     }
