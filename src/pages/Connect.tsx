@@ -38,6 +38,7 @@ export default function Connect() {
         if (!value) return;
 
         ServerIndex.getInstance().addServer(value);
+        if (input.current) input.current.blur();
         setValue("");
     }
 
