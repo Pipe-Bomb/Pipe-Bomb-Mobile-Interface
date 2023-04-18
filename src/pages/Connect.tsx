@@ -48,7 +48,7 @@ export default function Connect() {
 
     return (
         <>
-            <h1 className={styles.title}>Connect to Server</h1>
+            <h2 className={styles.title}>Connect to Server</h2>
             <Grid.Container className={styles.addContainer} alignItems="center" gap={3}>
                 <Grid style={{flexGrow: 1}}>
                     <Input ref={input} clearable underlined labelPlaceholder="Server URL" size="xl" fullWidth onKeyDown={keyPress} onChange={e => setValue(e.target.value)} initialValue={value} />
