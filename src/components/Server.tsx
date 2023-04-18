@@ -21,7 +21,7 @@ export default function Server({ hostInfo, status, connectCallback }: Props) {
             case "insecure":
                 return <MdLockOpen className={styles.icon} />
             default:
-                return <Loading className={styles.icon} loadingCss={{ $$loadingSize: "50px", $$loadingBorder: "6px"}}></Loading>;
+                return <Loading loadingCss={{ $$loadingSize: "24px", $$loadingBorder: "3px"}}></Loading>;
         }
     })();
 
