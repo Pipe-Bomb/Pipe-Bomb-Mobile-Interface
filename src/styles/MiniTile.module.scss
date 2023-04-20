@@ -17,12 +17,12 @@
 .title {
     font-size: var(--nextui-fontSizes-md);
     font-weight: var(--nextui-fontWeights-semibold);
-    margin: 0 1rem;
+    margin: 0 0.5rem;
     text-overflow: ellipsis;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp: 2; 
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     color: var(--nextui-colors-foreground);
 }

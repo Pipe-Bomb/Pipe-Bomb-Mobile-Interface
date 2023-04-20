@@ -48,6 +48,10 @@
     margin: 0.5rem 1rem calc(0.5rem + 1px) 1rem;
     gap: 1rem;
     position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    overflow: hidden;
 
     .image {
         height: 50px;
@@ -57,10 +61,6 @@
         background: var(--nextui-colors-waitingBackground);
         border-radius: var(--nextui-radii-base);
         border: 2px solid var(--nextui-colors-border);
-        user-select: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        overflow: hidden;
     }
 
     .info {

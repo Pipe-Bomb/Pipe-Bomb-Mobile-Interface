@@ -43,7 +43,9 @@ export default function Head() {
                     <IoSearch />
                 </IconButton>
                 <div className={styles.avatar}>
-                    { generateAvatar() }
+                    <Link to="/connect">
+                        { generateAvatar() }
+                    </Link>
                 </div>
             </Grid>
             
