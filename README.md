@@ -45,7 +45,7 @@ Compiled HTML, CSS and JS files are located in the `dist` directory.
 
 ## To Host w/ NGINX
 
-Below is a very basic configuration for hosting the Pipe Bomb Web Interface using [NGINX](https://www.nginx.com). To use this config, store the files that were compiled via the instructions above in the `/var/www/PipeBomb-Interface/html` directory. Manually create any directories that don't exist along the way.
+Below is a very basic configuration for hosting the Pipe Bomb Mobile Interface using [NGINX](https://www.nginx.com). To use this config, store the files that were compiled via the instructions above in the `/var/www/PipeBomb-Interface/html` directory. Manually create any directories that don't exist along the way.
 
 ```nginx
 server {
