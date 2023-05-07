@@ -1,0 +1,47 @@
+.top {
+    display: flex;
+    align-items: center;
+    gap: var(--nextui-space-lg);
+    margin: 0 1rem;
+
+    .image {
+        width: 100px;
+        height: 100px;
+        box-sizing: border-box;
+        overflow: hidden;
+        flex-shrink: 0;
+        flex-grow: 0;
+
+        .imageBorder {
+            height: 100%;
+            border: 2px solid var(--nextui-colors-border);
+            border-radius: var(--nextui-radii-base);
+            overflow: hidden;
+        }
+    }
+
+    .info {
+        flex-grow: 1;
+
+        .link {
+            color: var(--nextui-colors-text);
+            text-decoration: underline;
+        
+            &:hover {
+                text-decoration: underline;
+                color: var(--nextui-colors-primary);
+            }
+        }
+
+        .title {
+            font-size: var(--nextui-fontSizes-3xl);
+        }
+    }
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    margin: var(--nextui-space-md) 1rem var(--nextui-space-xl) 1rem;
+    gap: var(--nextui-space-lg);
+}
