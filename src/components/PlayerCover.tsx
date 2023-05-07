@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "../styles/PlayerCover.module.scss";
-import AudioPlayer, { AudioPlayerStatus } from "../logic/AudioPlayer";
+import AudioPlayer from "../logic/AudioPlayer";
 import { lerp } from "../logic/Utils";
 import PlayerCoverSlide from "./PlayerCoverSlide";
+import usePlayerUpdate from "../hooks/PlayerUpdateHook";
+import useCurrentTrack from "../hooks/CurrentTrackHook";
 
 let toggleFunction: (value: boolean) => void;
 
@@ -13,27 +15,36 @@ export function setPlayerOpen(open: boolean) {
 export default function PlayerCover() {
     const audioPlayer = AudioPlayer.getInstance();
     const [isOpen, setIsOpen] = useState(false);
-    const [status, setStatus] = useState<AudioPlayerStatus>(audioPlayer.getStatus());
+    const [trackList, setTrackList] = useState(audioPlayer.getQueue());
+    const [history, setHistory] = useState(audioPlayer.getHistory());
+    const track = useCurrentTrack();
+    const status = usePlayerUpdate({
+        paused: true,
+    });
     
+
+    const queueCallback = () => {
+        setTrackList(audioPlayer.getQueue());
+        setHistory(audioPlayer.getHistory());
+    }
+
+    useEffect(() => {
+        audioPlayer.registerQueueCallback(queueCallback);
+
+        return () => {
+            audioPlayer.unregisterQueueCallback(queueCallback);
+        }
+    }, []);
     
     const container = useRef<any>(null);
 
     toggleFunction = setIsOpen;
 
-    useEffect(() => {
-        audioPlayer.registerCallback(setStatus);
-
-        return () => {
-            audioPlayer.unregisterCallback(setStatus);
-        }
-    }, []);
-
-    if (isOpen && (!status || !status.track)) {
+    if (isOpen && (!status || !track)) {
         setIsOpen(false);
     }
 
     function togglePlay() {
-        if (!status) return;
         if (status.paused) {
             audioPlayer.play();
         } else {
@@ -115,14 +126,12 @@ export default function PlayerCover() {
 
     return (
         <div ref={container} className={styles.container + (isOpen ? "" : ` ${styles.closed}`)} onClick={togglePlay} onTouchStart={regularMouseDown}>
-            {status.track && (
-                <PlayerCoverSlide track={status.track} />
-            )}
-            {status.track && (
-                <PlayerCoverSlide track={status.track} status={status} />
-            )}
-            {status.track && (
-                <PlayerCoverSlide track={status.queue[0] || status.track} />
+            {track && (
+                <>
+                    <PlayerCoverSlide track={history[history.length - 1]?.track || track} />
+                    <PlayerCoverSlide track={track} status={status} />
+                    <PlayerCoverSlide track={trackList[0]?.track || track} />
+                </>
             )}
         </div>
     )

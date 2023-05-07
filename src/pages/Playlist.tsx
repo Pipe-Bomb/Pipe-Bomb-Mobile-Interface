@@ -14,6 +14,8 @@ import PlaylistImage from "../components/PlaylistImage";
 import AudioPlayer from "../logic/AudioPlayer";
 import { shuffle } from "../logic/Utils";
 import PipeBombPlaylist from "pipebomb.js/dist/collection/Playlist";
+import PlaylistTop from "../components/PlaylistTop";
+import { ViewportList } from "react-viewport-list";
 
 let lastPlaylistID = "";
 
@@ -106,7 +108,7 @@ export default function Playlist() {
 
     if (!playlist) {
         return <div className={styles.loaderContainer}>
-            <Loader text="Loading..."></Loader>
+            <Loader text="Loading"></Loader>
         </div>
     }
 
@@ -126,7 +128,7 @@ export default function Playlist() {
                         )}
                     </div>
                 </div>
-                <Loader text="Loading Tracks..."></Loader>
+                <Loader text="Loading Tracks"></Loader>
             </div>
         )
     }
@@ -136,48 +138,29 @@ export default function Playlist() {
 
     function playPlaylist() {
         if (!trackList) return;
-        audioPlayer.addToQueue(trackList, 0);
+        audioPlayer.addToQueue(trackList, false, 0);
         audioPlayer.nextTrack();
     }
 
     function shufflePlaylist() {
         if (!trackList) return;
-        audioPlayer.addToQueue(shuffle(trackList), 0);
+        audioPlayer.addToQueue(shuffle(trackList), true, 0);
         audioPlayer.nextTrack();
     }
 
     return (
         <>
-            <div className={styles.top}>
-                <div className={styles.image}>
-                    <PlaylistImage playlist={playlist} />
-                </div>
-                <div className={styles.content}>
-                    <Text h1 className={styles.title}>{playlist.getName()}</Text>
-                    {!isOwnPlaylist && (
-                        <Text h4 className={styles.owner}>by {playlist.owner.username}</Text>
-                    )}
-                </div>
-            </div>
-            <Grid.Container gap={2} alignItems="center">
-                <Grid>
-                    <Button size="xl" auto onPress={playPlaylist} color="gradient">
-                        <IconContext.Provider value={{size: "40px"}}>
-                            <MdPlayArrow />
-                        </IconContext.Provider>
-                    </Button>
-                </Grid>
-                <Grid>
-                    <Button size="lg" auto onPress={shufflePlaylist} bordered>
-                        <IconContext.Provider value={{size: "30px"}}>
-                            <MdShuffle />
-                        </IconContext.Provider>
-                    </Button>
-                </Grid>
-            </Grid.Container>
-            {newTrackList.map((track, index) => (
-                <ListTrack key={index} track={track} parentPlaylist={playlist} />
-            ))}
+            <PlaylistTop name={playlist.getName()} trackCount={trackList ? trackList.length : undefined} onPlay={playPlaylist} onShuffle={shufflePlaylist} owner={playlist.owner} image={<PlaylistImage playlist={playlist} />} contextMenu={{
+                title: playlist.getName(),
+                subtitle: "Playlist",
+                image: <PlaylistImage playlist={playlist} />,
+                options: []
+            }} />
+            <ViewportList items={newTrackList}>
+                {(track, index) => (
+                    <ListTrack key={index} track={track} parentPlaylist={playlist} />
+                )}
+            </ViewportList>
             {/* <div className={styles.suggestions}>
                 { generateSuggestions() }
             </div> */}

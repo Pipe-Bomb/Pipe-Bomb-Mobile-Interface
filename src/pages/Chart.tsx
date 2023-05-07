@@ -14,6 +14,7 @@ import Track from "pipebomb.js/dist/music/Track";
 import { IconContext } from "react-icons";
 import LazyImage from "../components/LazyImage";
 import PipeBombConnection from "../logic/PipeBombConnection";
+import { ViewportList } from "react-viewport-list";
 
 export default function Chart() {
     let paramID: any = useParams().chartID;
@@ -39,18 +40,18 @@ export default function Chart() {
     }, []);
 
     if (!chart || !trackList) {
-        return <Loader text="Loading..."></Loader>
+        return <Loader text="Loading"></Loader>
     }
 
     function playChart() {
         if (!trackList) return;
-        audioPlayer.addToQueue(trackList, 0);
+        audioPlayer.addToQueue(trackList, false, 0);
         audioPlayer.nextTrack();
     }
 
     function shuffleChart() {
         if (!trackList) return;
-        audioPlayer.addToQueue(shuffle(trackList), 0);
+        audioPlayer.addToQueue(shuffle(trackList), true, 0);
         audioPlayer.nextTrack();
     }
 
@@ -62,7 +63,7 @@ export default function Chart() {
                     <LazyImage src={`${PipeBombConnection.getInstance().getUrl()}/v1/serviceicon/${chart.service}`} />
                 </div>
                 <div className={styles.content}>
-                    <Text h1 className={styles.title}>{chart.collectionName}</Text>
+                    <Text h1 className={styles.title}>{chart.getName()}</Text>
                 </div>
             </div>
             <Grid.Container gap={2} alignItems="center">
@@ -81,11 +82,13 @@ export default function Chart() {
                     </Button>
                 </Grid>
             </Grid.Container>
-            {trackList.map((track, index) => (
-                <NumberWrapper key={index} number={index + 1}>
-                    <ListTrack track={track} />
-                </NumberWrapper>
-            ))}
+            <ViewportList items={trackList}>
+                {(track, index) => (
+                    <NumberWrapper key={index} number={index + 1}>
+                        <ListTrack track={track} />
+                    </NumberWrapper>
+                )}
+            </ViewportList>
         </>
     )
 }

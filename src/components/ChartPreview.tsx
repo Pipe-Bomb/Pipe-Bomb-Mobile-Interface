@@ -56,7 +56,7 @@ export default function ChartPreview({ chartID }: ChartPreviewProps) {
         <>
             <div className={styles.top}>
                 <Link to={`/charts/${chart.collectionID.split("/").pop()}`}>
-                    <Text h2 className={styles.title}>{chart.collectionName}</Text>
+                    <Text h2 className={styles.title}>{chart.getName()}</Text>
                 </Link>
                 <Link to="/charts" className={styles.roundBorder}>
                     <MdReadMore />

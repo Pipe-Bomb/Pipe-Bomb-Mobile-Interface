@@ -25,6 +25,8 @@ export function formatTime(time: number) {
         if (minutes < 10) minutes = "0" + minutes;
         return `${hours}:${minutes}:${seconds}`;
     }
+    if (typeof seconds == "number") seconds = seconds.toString();
+    if (isNaN(minutes) || isNaN(parseInt(seconds))) return "0:00";
     return `${minutes}:${seconds}`;
 }
 
@@ -154,4 +156,25 @@ export function lerp(start: number, end: number, time: number, callback: (value:
     }
 
     return prematureEnd;
+}
+
+export function generateNumberHash(input: string) {
+    let hash = 0;
+    if (!input.length) return 0;
+
+    for (let i = 0; i < input.length; i++) {
+        let chr = input.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+};
+
+export function generateRandomString(length: number) {
+    let result = "";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
 }

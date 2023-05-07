@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../styles/ContextMenu.module.scss";
 import { Button, Text } from "@nextui-org/react";
 

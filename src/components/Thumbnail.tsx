@@ -50,7 +50,13 @@ export default function Thumbnail({ image, title, subtitle, small, onClick, onHo
     return (
         <div ref={container} className={classNames} onClick={onClick}>
             <div className={styles.image}>
-                <Image src={image} />
+                {typeof image == "string" ? (
+                    <div className={styles.border}>
+                        <Image src={image} />
+                    </div>
+                ) : (
+                    <Image src={image} />
+                )}
             </div>
             <Text h3 className={styles.title}>{title}</Text>
             {subtitle && (

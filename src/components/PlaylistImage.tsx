@@ -1,46 +1,24 @@
-import { generateMeshGradient } from "meshgrad";
-import styles from "../styles/PlaylistImage.module.scss";
+import Playlist from "pipebomb.js/dist/collection/Playlist";
 import { useEffect, useState } from "react";
 import PipeBombConnection from "../logic/PipeBombConnection";
+import Axios from "axios";
+import styles from "../styles/PlaylistImage.module.scss"
 import LazyImage from "./LazyImage";
-import Playlist from "pipebomb.js/dist/collection/Playlist";
-
-const meshes: Map<string, {[key: string]: string}> = new Map();
+import { generateMeshGradient } from "meshgrad";
+import { Loading } from "@nextui-org/react";
 
 export interface PlaylistImageProps {
     playlist: Playlist
+    loaderSize?: "xs" | "sm" | "md" | "lg" | "xl"
 }
 
-export default function PlaylistImage({ playlist }: PlaylistImageProps) {
-    const [imageUrls, setImageUrls] = useState<string[]>([]);
+const meshes: Map<string, {[key: string]: string}> = new Map();
 
-    useEffect(() => {
-        playlist.getTrackList(PipeBombConnection.getInstance().getApi().trackCache)
-        .then(tracks => {
-            if (!tracks) {
-                setImageUrls([]);
-                return;
-            }
-            const checkCount = Math.min(tracks.length, 10);
-            let checked = 0;
-            const images: string[] = [];
-            for (let i = 0; i < checkCount; i++) {
-                tracks[i].getMetadata()
-                .then(metadata => {
-                    if (checked == -1 || images.length >= 4) return;
-                    checked++;
-                    if (metadata.image) images.push(metadata.image);
-                    if (checked >= checkCount || images.length >= 4) {
-                        checked = -1;
-                        setImageUrls(images);
-                    }
-                });
-            }
-        }).catch(error => {
-            console.error(error);
-        });
-    }, [playlist]);
-    
+export default function PlaylistImage({ playlist, loaderSize }: PlaylistImageProps) {
+    const [imageUrls, setImageUrls] = useState<string[]>([]);
+    const [loaded, setLoaded] = useState(false);
+    if (!loaderSize) loaderSize = "lg";
+
     function getMesh() {
         const css = (() => {
             let temp = meshes.get(playlist.collectionID);
@@ -63,38 +41,117 @@ export default function PlaylistImage({ playlist }: PlaylistImageProps) {
             meshes.set(playlist.collectionID, out);
             return out;
         })();
-        return <div className={styles.singleImage} style={css} ></div>;
+        return <div className={styles.mesh} style={css} ></div>;
     }
+    
+    useEffect(() => {
+        setLoaded(false);
+        playlist.getTrackList(PipeBombConnection.getInstance().getApi().trackCache)
+        .then(tracks => {
+            if (!tracks) {
+                setImageUrls([]);
+                return;
+            }
+            const checkCount = Math.min(tracks.length, 10);
+            if (!checkCount) {
+                setLoaded(true);
+                return;
+            }
 
-    function generateHTML() {
-        if (imageUrls.length == 4) { // collage
-            return (
-                <div className={styles.imageContainer}>
-                    {getMesh()}
-                    {imageUrls.map((image, index) => (
-                        <LazyImage key={index} className={styles.quarterImage} src={image} />
-                    ))}
-                </div>
-            )
+            let checked = 0;
+            const images: string[] = [];
+            for (let i = 0; i < checkCount; i++) {
+                Axios.head(tracks[i].getThumbnailUrl()).then(response => {
+                    if (checked == -1 || images.length >= 4) return;
+                    
+                    if (response.status == 200) {
+                        images.push(tracks[i].getThumbnailUrl());
+                    }
+                    if (++checked >= checkCount || images.length >= 4) {
+                        checked = -1;
+                        setImageUrls(images);
+                        if (!images.length) setLoaded(true);
+                    }
+                }, () => {
+                    if (++checked >= checkCount || images.length >= 4) {
+                        checked = -1;
+                        setImageUrls(images);
+                        if (!images.length) setLoaded(true);
+                    }
+                });
+            }
+        }).catch(error => {
+            console.error(error);
+        });
+    }, [playlist]);
+
+    let loadedImages = 0;
+
+    function load() {
+        loadedImages++;
+
+        let quota = imageUrls.length;
+        if (quota < 4 && quota) {
+            quota = 1;
         }
-        
-        if (imageUrls.length > 0) { // single image
-            return (
-                <div className={styles.imageContainer}>
-                    {getMesh()}
-                    <LazyImage className={styles.singleImage} src={imageUrls[0]} />
-                </div>
-            )
-        }   
 
-        return <div className={styles.imageContainer}>
-            {getMesh()}
-        </div>
+        if (loadedImages >= quota) {
+            setLoaded(true);
+        }
     }
 
-    return (
-        <div className={styles.container}>
-            { generateHTML() }
-        </div>
-    )
+    if (imageUrls.length == 4) { // collage
+        return (
+            <div className={styles.border}>
+                <div className={styles.imageContainer + (loaded ? ` ${styles.loaded}` : "")}>
+                    {!loaded && (
+                        <div className={styles.loader}>
+                            <Loading size={loaderSize} className={styles.loaderIcon} />
+                        </div>
+                    )}
+                    
+                    <div className={styles.content}>
+                        {imageUrls.map((image, index) => (
+                            <LazyImage key={index} className={styles.quarterImage} src={image} onload={load} transition={0} />
+                        ))}
+                    </div>
+                </div>
+            </div>
+            
+        )
+    } else if (imageUrls.length > 0) { // single image
+        return (
+            <div className={styles.border}>
+                <div className={styles.imageContainer + (loaded ? ` ${styles.loaded}` : "")}>
+                    {!loaded && (
+                        <div className={styles.loader}>
+                            <Loading size={loaderSize} className={styles.loaderIcon} />
+                        </div>
+                    )}
+
+                    <div className={styles.content}>
+                        <LazyImage className={styles.singleImage} src={imageUrls[0]} onload={load} transition={0} />
+                    </div>
+                    
+                </div>
+            </div>
+            
+        )
+    } else { // no image
+        return (
+            <div className={styles.border}>
+                <div className={styles.imageContainer + (loaded ? ` ${styles.loaded}` : "")}>
+                    {!loaded && (
+                        <div className={styles.loader}>
+                            <Loading size={loaderSize} className={styles.loaderIcon} />
+                        </div>
+                    )}
+                    
+                    <div className={styles.content}>
+                        {getMesh()}
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }

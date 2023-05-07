@@ -9,6 +9,7 @@ import { ContextMenuEntry, openContextMenu } from "./ContextMenu";
 import LazyImage from "./LazyImage";
 import { MdOutlineFileDownload, MdOutlinePlaylistAdd, MdOutlinePlaylistRemove, MdPlaylistPlay, MdQueueMusic } from "react-icons/md";
 import { openAddToPlaylist } from "./AddToPlaylist";
+import useTrackMeta from "../hooks/TrackMetaHook";
 
 interface ListTrackProps {
     track: Track,
@@ -16,17 +17,8 @@ interface ListTrackProps {
 }
 
 export default function ListTrack({ track, parentPlaylist }: ListTrackProps) {
-    const [metadata, setMetadata] = useState<TrackMeta | null>(null);
+    const metadata = useTrackMeta(track);
     const container = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        track.getMetadata()
-        .then(data => {
-            setMetadata(data);
-        }).catch(error => {
-            console.error(error);
-        });
-    }, [track]);
 
     useEffect(() => {
         if (container.current) {
@@ -41,7 +33,7 @@ export default function ListTrack({ track, parentPlaylist }: ListTrackProps) {
                             icon: <MdPlaylistPlay />,
                             name: "Play next",
                             onPress: () => {
-                                AudioPlayer.getInstance().addToQueue([track], 0);
+                                AudioPlayer.getInstance().addToQueue([track], false, 0);
                                 return false;
                             }
                         },
@@ -84,9 +76,9 @@ export default function ListTrack({ track, parentPlaylist }: ListTrackProps) {
 
 
                     openContextMenu({
-                        title: metadata?.title || track.trackID,
-                        subtitle: convertArrayToString(metadata?.artists || []),
-                        image: metadata?.image ? <LazyImage src={metadata?.image} /> : null,
+                        title: metadata ? metadata.title : track.trackID,
+                        subtitle: convertArrayToString(metadata ? metadata.artists : []),
+                        image: <Image border src={track.getThumbnailUrl()} />,
                         options
                     });
                 }, 300);
@@ -118,10 +110,10 @@ export default function ListTrack({ track, parentPlaylist }: ListTrackProps) {
     return (
         <div className={styles.container} ref={container} key={track.trackID} onClick={playTrack}>
             <div className={styles.image} onClick={playTrack}>
-                <Image src={metadata?.image} />
+                <Image loadingSize="md" src={track.getThumbnailUrl()} />
             </div>
             <div className={styles.info}>
-                <span className={styles.trackName}>{metadata?.title || track.trackID}</span>
+                <span className={styles.trackName}>{metadata ? metadata.title : track.trackID}</span>
                 {metadata && (
                     <span className={styles.artists}>{convertArrayToString(metadata.artists)}</span>
                 )}

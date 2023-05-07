@@ -19,6 +19,7 @@ import Charts from "./pages/Charts";
 import ContextMenu from "./components/ContextMenu";
 import AddToPlaylist from "./components/AddToPlaylist";
 import CreatePlaylist from "./components/CreatePlaylist";
+import ExternalPlaylistPage from "./pages/ExternalPlaylistPage";
 
 let needsConnect = false;
 
@@ -74,6 +75,7 @@ function App() {
                                     <Route path="/library" element={<Library />} />
                                     <Route path="/explore" element={<Explore />} />
                                     <Route path="/search" element={<Search />} />
+                                    <Route path="/collection/playlist/:collectionID" element={<ExternalPlaylistPage />} />
                                 </Routes>
                                 <Player />
                                 <PlayerCover />

@@ -1,7 +1,7 @@
-import Track, { TrackMeta } from "pipebomb.js/dist/music/Track";
-import AudioPlayer, { AudioPlayerStatus } from "../logic/AudioPlayer";
+import Track from "pipebomb.js/dist/music/Track";
+import AudioPlayer from "../logic/AudioPlayer";
 import styles from "../styles/PlayerCoverSlide.module.scss";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import IconButton from "./IconButton";
 import { RxCaretDown } from "react-icons/rx";
 import { Text } from "@nextui-org/react";
@@ -11,32 +11,21 @@ import PipeBombConnection from "../logic/PipeBombConnection";
 import { setPlayerOpen } from "./PlayerCover";
 import LazyImage from "./LazyImage";
 import { MdPlayArrow, MdSkipNext, MdSkipPrevious } from "react-icons/md";
+import useTrackMeta from "../hooks/TrackMetaHook";
+import { AudioTypeStatus } from "../logic/audio/AudioType";
+import Image from "./Image";
 
 export interface PlaylistCoverSlideProps {
     track: Track,
-    status?: AudioPlayerStatus
+    status?: AudioTypeStatus
 }
 
 export default function PlayerCoverSlide({ track, status }: PlaylistCoverSlideProps) {
-    const [trackMeta, setTrackMeta] = useState<TrackMeta | null>(null);
+    const trackMeta = useTrackMeta(track);
     const waveform = useRef(null);
     const [tempPercentChange, setTempPercentChange] = useState<number | null>(null);
 
-    useEffect(() => {
-        track.getMetadata().then(setTrackMeta);  
-    }, [track]);
-
-    const backgroundImage = (() => {
-        if (!trackMeta) {
-            return; // load
-        }
-        if (!trackMeta.image) {
-            return; // no image
-        }
-        return `url(${trackMeta.image})`;
-    })();
-
-    const percentage = status ? (tempPercentChange === null ? (status.time / status.duration * 100) : tempPercentChange) : 0;
+    const percentage = status ? (tempPercentChange === null ? (status.currentTime / status.duration * 100) : tempPercentChange) : 0;
 
     function waveformMouseDown(e: React.TouchEvent) {
         if (!waveform.current) return;
@@ -73,12 +62,10 @@ export default function PlayerCoverSlide({ track, status }: PlaylistCoverSlidePr
         document.addEventListener("touchend", mouseUp);
     }
 
-    const audioUrl = status?.track ? `${PipeBombConnection.getInstance().getUrl()}/v1/audio/${status.track.trackID}` : null;
-
     return (
         <div className={styles.slide + (status && !status.paused ? ` ${styles.playing}` : "")}>
             <div className={styles.background} style={{
-                backgroundImage,
+                backgroundImage: `url(${track.getThumbnailUrl()})`,
                 left: `${percentage}%`,
                 transform: `translate(${-percentage}%, -50%)`
             }}></div>
@@ -90,18 +77,18 @@ export default function PlayerCoverSlide({ track, status }: PlaylistCoverSlidePr
             <div className={styles.topInfo}>
                 <span>
                     <Text h2 className={styles.title}>
-                        {trackMeta?.title}
+                        {trackMeta ? trackMeta.title : track?.trackID}
                     </Text>
                 </span>
                 <span>
                     <Text h3 className={styles.artist}>
-                        { convertArrayToString(trackMeta?.artists || []) }
+                        { convertArrayToString(trackMeta ? trackMeta.artists : []) }
                     </Text>
                 </span>
             </div>
             <div className={styles.thumbnailContainer + (status?.paused !== false ? ` ${styles.thumbnailEnabled}` : "")}>
                 <div className={styles.thumbnail}>
-                    <LazyImage src={trackMeta?.image} />
+                    <Image src={track.getThumbnailUrl()} />
                 </div>
                 {status?.paused !== false ? (
                     <div className={styles.buttons}>
@@ -119,7 +106,7 @@ export default function PlayerCoverSlide({ track, status }: PlaylistCoverSlidePr
             </div>
             <div className={styles.waveformMouseHandler} onTouchStart={waveformMouseDown}>
                 <div ref={status ? waveform : null} className={styles.waveformContainer} style={{transform: `translateX(${-percentage}%)`}}>
-                    <Waveform url={audioUrl} active={status ? !status.paused : false} percent={percentage} />
+                    <Waveform url={track?.getAudioUrl()} active={status ? !status.paused : false} percent={percentage} />
                 </div>
             </div>
             <span className={styles.time}>{ formatTime(status ? Math.max(0, status.duration * percentage / 100) : 0) }</span>

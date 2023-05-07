@@ -7,6 +7,7 @@ import { MdOutlineFileDownload, MdOutlinePlaylistAdd, MdPlaylistPlay, MdQueueMus
 import AudioPlayer from "../logic/AudioPlayer";
 import LazyImage from "./LazyImage";
 import { openAddToPlaylist } from "./AddToPlaylist";
+import useTrackMeta from "../hooks/TrackMetaHook";
 
 export interface TrackThumbnailProps {
     track: Track
@@ -15,11 +16,7 @@ export interface TrackThumbnailProps {
 }
 
 export default function TrackThumbnail({ track, small, onClick }: TrackThumbnailProps) {
-    const [trackMeta, setTrackMeta] = useState<TrackMeta | null>(null);
-
-    useEffect(() => {
-        track.getMetadata().then(setTrackMeta);
-    }, [track]);
+    const trackMeta = useTrackMeta(track);
     
     function hold() {
         const options: ContextMenuEntry[] = [
@@ -27,7 +24,7 @@ export default function TrackThumbnail({ track, small, onClick }: TrackThumbnail
                 icon: <MdPlaylistPlay />,
                 name: "Play next",
                 onPress: () => {
-                    AudioPlayer.getInstance().addToQueue([track], 0);
+                    AudioPlayer.getInstance().addToQueue([track], false, 0);
                     return false;
                 }
             },
@@ -58,9 +55,9 @@ export default function TrackThumbnail({ track, small, onClick }: TrackThumbnail
         ];
 
         openContextMenu({
-            title: trackMeta?.title || track.trackID,
-            subtitle: convertArrayToString(trackMeta?.artists || []),
-            image: trackMeta?.image ? <LazyImage src={trackMeta?.image} /> : null,
+            title: trackMeta ? trackMeta.title : track.trackID,
+            subtitle: convertArrayToString(trackMeta ? trackMeta.artists : []),
+            image: <LazyImage src={track.getThumbnailUrl()} />,
             options
         });
     }
@@ -69,6 +66,6 @@ export default function TrackThumbnail({ track, small, onClick }: TrackThumbnail
         return null;
     }
     return (
-        <Thumbnail small={small} image={trackMeta.image || ""} title={trackMeta.title} subtitle={convertArrayToString(trackMeta.artists)} onClick={onClick} onHold={hold} />
+        <Thumbnail small={small} image={track.getThumbnailUrl()} title={trackMeta.title} subtitle={convertArrayToString(trackMeta.artists)} onClick={onClick} onHold={hold} />
     )
 }

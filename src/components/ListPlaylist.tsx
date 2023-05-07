@@ -12,7 +12,7 @@ export default function ListPlaylist({ playlist }: ListPlaylistProps) {
         <Link to={`/playlist/${playlist.collectionID}`}>
             <div className={styles.container}>
                 <div className={styles.imageContainer}>
-                    <PlaylistImage playlist={playlist} />
+                    <PlaylistImage loaderSize="md" playlist={playlist} />
                 </div>
                 <div className={styles.info}>
                     <span className={styles.title}>{ playlist.getName() }</span>

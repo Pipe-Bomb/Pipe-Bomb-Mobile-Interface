@@ -26,7 +26,7 @@ export default function Library() {
     function generatePlaylistHTML() {
         if (!playlists) {
             return (
-                <Loader text="Loading Library..." />
+                <Loader text="Loading Library" />
             )
         }
 
