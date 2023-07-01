@@ -1,21 +1,19 @@
-import { Button, Grid, Text } from "@nextui-org/react";
+import { Text } from "@nextui-org/react";
 import Track from "pipebomb.js/dist/music/Track";
 import { useEffect, useState } from "react";
-import { IconContext } from "react-icons";
-import { MdPlayArrow, MdShuffle } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import ListTrack from "../components/ListTrack";
 import Loader from "../components/Loader";
-import Account, { UserDataFormat } from "../logic/Account";
-import PipeBombConnection from "../logic/PipeBombConnection";
 import PlaylistIndex from "../logic/PlaylistIndex";
 import styles from "../styles/Playlist.module.scss";
-import PlaylistImage from "../components/PlaylistImage";
 import AudioPlayer from "../logic/AudioPlayer";
 import { shuffle } from "../logic/Utils";
 import PipeBombPlaylist from "pipebomb.js/dist/collection/Playlist";
 import PlaylistTop from "../components/PlaylistTop";
 import { ViewportList } from "react-viewport-list";
+import { UserData } from "../logic/PipeBombConnection";
+import useIsSelf from "../hooks/IsSelfHook";
+import Image from "../components/Image";
 
 let lastPlaylistID = "";
 
@@ -26,19 +24,19 @@ export default function Playlist() {
     const [playlist, setPlaylist] = useState<PipeBombPlaylist | null>(null);
     const [trackList, setTrackList] = useState<Track[] | null | false>(false);
     const [errorCode, setErrorCode] = useState(0);
-    const [selfInfo, setSelfInfo] = useState<UserDataFormat | null>(null);
     const [suggestions, setSuggestions] = useState<Track[] | null>(null);
+    const self = useIsSelf(playlist?.owner);
 
     const playlistID: string = paramID;
 
     const callback = (collection: PipeBombPlaylist) => {
         if (!collection) return;
-        collection.getTrackList(PipeBombConnection.getInstance().getApi().trackCache)
+        collection.getTrackList()
         .then(tracks => {
             if (lastPlaylistID != paramID) return;
             setTrackList(tracks);
 
-            collection.getSuggestedTracks(PipeBombConnection.getInstance().getApi().trackCache)
+            collection.getSuggestedTracks()
             .then(newSuggestions => {
                 if (lastPlaylistID != paramID) return;
                 setSuggestions(newSuggestions);
@@ -73,10 +71,6 @@ export default function Playlist() {
     }, [paramID]);
 
     useEffect(() => {
-        if (!selfInfo) {
-            Account.getInstance().getUserData().then(setSelfInfo);
-        }
-
         if (playlist) {
             playlist.registerUpdateCallback(callback);
         }
@@ -112,18 +106,16 @@ export default function Playlist() {
         </div>
     }
 
-    const isOwnPlaylist = selfInfo && selfInfo.userID == playlist.owner.userID;
-
     if (trackList === false) {
         return (
             <div className={styles.loaderContainer}>
                 <div className={styles.top}>
                     <div className={styles.image}>
-                        <PlaylistImage playlist={playlist} />
+                        <Image src={playlist.getThumbnailUrl()} />
                     </div>
                     <div className={styles.content}>
                         <Text h1 className={styles.title}>{playlist.getName()}</Text>
-                        {!isOwnPlaylist && (
+                        {!self && (
                             <Text h4>by {playlist.owner.username}</Text>
                         )}
                     </div>
@@ -150,10 +142,10 @@ export default function Playlist() {
 
     return (
         <>
-            <PlaylistTop name={playlist.getName()} trackCount={trackList ? trackList.length : undefined} onPlay={playPlaylist} onShuffle={shufflePlaylist} owner={playlist.owner} image={<PlaylistImage playlist={playlist} />} contextMenu={{
+            <PlaylistTop name={playlist.getName()} trackCount={trackList ? trackList.length : undefined} onPlay={playPlaylist} onShuffle={shufflePlaylist} owner={playlist.owner} image={playlist.getThumbnailUrl()} contextMenu={{
                 title: playlist.getName(),
                 subtitle: "Playlist",
-                image: <PlaylistImage playlist={playlist} />,
+                image: playlist.getThumbnailUrl(),
                 options: []
             }} />
             <ViewportList items={newTrackList}>

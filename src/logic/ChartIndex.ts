@@ -7,16 +7,21 @@ export default class ChartIndex {
     private charts: Map<string, TrackList> | null = null;
 
     private constructor() {
-        this.checkCharts();
+        if (PipeBombConnection.getInstance().getUrl()) {
+            this.checkCharts();
+        }
 
         setTimeout(() => {
-            this.checkCharts();
+            if (PipeBombConnection.getInstance().getStatus() == "authenticated") {
+                this.checkCharts();
+            }
         }, 30_000);
 
         PipeBombConnection.getInstance().registerUpdateCallback(() => {
-            console.log("clearing charts");
-            this.charts = null;
-            this.checkCharts();
+            if (PipeBombConnection.getInstance().getStatus() == "authenticated") {
+                this.charts = null;
+                this.checkCharts();
+            }
         });
     }
 

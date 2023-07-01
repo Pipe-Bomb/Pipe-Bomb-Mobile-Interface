@@ -3,29 +3,12 @@ import { useEffect, useState, useRef } from "react";
 import Server from "../components/Server";
 import styles from "../styles/Connect.module.scss";
 import { Button, Grid, Input } from "@nextui-org/react";
-import PipeBombConnection from "../logic/PipeBombConnection";
-import HostInfo from "pipebomb.js/dist/HostInfo";
-import { NavigateFunction, useNavigate } from "react-router-dom";
-
-let navigate: NavigateFunction;
-
-export function connectToHost(hostInfo: HostInfo, status: string) {
-    if (!["secure", "insecure"].includes(status)) return;
-    if (!ServerIndex.getInstance().getServer(hostInfo.host)) {
-        return;
-    }
-    const host = `http${hostInfo.https ? "s" : ""}://${hostInfo.host}`;
-    PipeBombConnection.getInstance().setHost(host);
-    localStorage.setItem("host", host);
-    if (navigate) navigate("/");
-}
 
 export default function Connect() {
     const serverIndex = ServerIndex.getInstance();
     const [servers, setServers] = useState(serverIndex.getServers());
     const input = useRef<HTMLInputElement>(null);
     const [value, setValue] = useState("");
-    navigate = useNavigate();
 
     useEffect(() => {
         serverIndex.registerUpdateCallback(setServers);
@@ -59,7 +42,7 @@ export default function Connect() {
                 </Grid>
             </Grid.Container>
             {servers.map(server => (
-                <Server key={server.host} hostInfo={server} status={serverIndex.getServerStatus(server)} connectCallback={connectToHost}></Server>
+                <Server key={server.host} hostInfo={server} status={serverIndex.getServerStatus(server)}></Server>
             ))}
         </>
     )

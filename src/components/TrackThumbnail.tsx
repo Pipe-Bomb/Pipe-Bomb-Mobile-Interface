@@ -57,7 +57,7 @@ export default function TrackThumbnail({ track, small, onClick }: TrackThumbnail
         openContextMenu({
             title: trackMeta ? trackMeta.title : track.trackID,
             subtitle: convertArrayToString(trackMeta ? trackMeta.artists : []),
-            image: <LazyImage src={track.getThumbnailUrl()} />,
+            image: track.getThumbnailUrl(),
             options
         });
     }

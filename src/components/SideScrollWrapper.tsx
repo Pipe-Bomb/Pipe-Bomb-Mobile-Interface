@@ -1,6 +1,5 @@
 import Track from "pipebomb.js/dist/music/Track";
 import { Link } from "react-router-dom";
-import PlaylistImage from "./PlaylistImage";
 import SideScroll from "./SideScroll";
 import Thumbnail from "./Thumbnail";
 import TrackThumbnail from "./TrackThumbnail";
@@ -25,7 +24,7 @@ export default function SideScrollWrapper(props: SideScrollWrapperProps) {
             <SideScroll title={props.title}>
                 {props.playlists.map((playlist, index) => {
                     return <Link key={index} to={`/playlist/${playlist.collectionID}`}>
-                        <Thumbnail image={<PlaylistImage playlist={playlist} loaderSize="xl" />} title={playlist.getName()} subtitle="Playlist" />
+                        <Thumbnail image={playlist.getThumbnailUrl()} title={playlist.getName()} subtitle="Playlist" />
                     </Link>
                 })}
             </SideScroll>

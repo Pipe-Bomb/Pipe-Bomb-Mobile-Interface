@@ -78,7 +78,7 @@ export default function ListTrack({ track, parentPlaylist }: ListTrackProps) {
                     openContextMenu({
                         title: metadata ? metadata.title : track.trackID,
                         subtitle: convertArrayToString(metadata ? metadata.artists : []),
-                        image: <Image border src={track.getThumbnailUrl()} />,
+                        image: track.getThumbnailUrl(),
                         options
                     });
                 }, 300);

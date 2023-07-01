@@ -12,27 +12,22 @@ export default class PlaylistIndex {
     private constructor() {
         if (PipeBombConnection.getInstance().getUrl()) {
             this.checkPlaylists();
-        } else {
-            (async () => {
-                while (!this.playlists && !PipeBombConnection.getInstance().getUrl()) {
-                    await wait(0.1);
-                }
-                if (!this.playlists) {
-                    this.checkPlaylists();
-                }
-
-                PipeBombConnection.getInstance().registerUpdateCallback(() => {
-                    this.playlists = null;
-                    this.checkPlaylists();
-                });
-            })();
         }
 
         setInterval(() => {
             if (PipeBombConnection.getInstance().getUrl()) {
-                this.checkPlaylists();
+                if (PipeBombConnection.getInstance().getStatus() == "authenticated") {
+                    this.checkPlaylists();
+                }
             }
         }, 10_000);
+
+        PipeBombConnection.getInstance().registerUpdateCallback(() => {
+            if (PipeBombConnection.getInstance().getStatus() == "authenticated") {
+                this.playlists = null;
+                this.checkPlaylists();
+            }
+        });
     }
 
     public static getInstance() {

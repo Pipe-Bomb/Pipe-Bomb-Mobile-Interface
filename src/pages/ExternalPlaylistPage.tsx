@@ -77,7 +77,7 @@ export default function ExternalPlaylistPage() {
             <PlaylistTop name={collection.getName()} trackCount={collection.getTrackListLength()} onPlay={playPlaylist} onShuffle={shufflePlaylist} image={collection.getThumbnailUrl()} contextMenu={{
                 title: collection.getName(),
                 subtitle: collection.service + " playlist",
-                image: <Image border src={collection.getThumbnailUrl()} />,
+                image: collection.getThumbnailUrl(),
                 options: []
             }} />
             {tracklist && (

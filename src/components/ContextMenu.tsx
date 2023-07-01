@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "../styles/ContextMenu.module.scss";
 import { Button, Text } from "@nextui-org/react";
+import Image from "./Image";
 
 let setMenuOpen: (open: boolean) => void;
 
@@ -14,7 +15,7 @@ export interface ContextMenuEntry {
 export interface ContextMenuInfo {
     title: string,
     subtitle: string,
-    image?: JSX.Element | null,
+    image?: string | null,
     options: ContextMenuEntry[]
 }
 
@@ -59,7 +60,7 @@ export default function ContextMenu() {
                 <div className={styles.header}>
                     {contextMenuInfo?.image && (
                         <div className={styles.image}>
-                            {contextMenuInfo.image}
+                            <Image src={contextMenuInfo.image} border />
                         </div>
                     )}
                     <div className={styles.info}>

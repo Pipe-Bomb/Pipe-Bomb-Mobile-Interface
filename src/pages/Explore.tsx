@@ -23,7 +23,7 @@ export default function Explore() {
         const pb = PipeBombConnection.getInstance().getApi();
         pb.trackCache.getTrack("sc-1162937488")
         .then(track => {
-            track.getSuggestedTracks(pb.collectionCache, pb.trackCache).then(tracks => {
+            track.getSuggestedTracks().then(tracks => {
                 setRecommendedTracks(tracks.getTrackList());
             });
         });

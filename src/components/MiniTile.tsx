@@ -12,7 +12,7 @@ export default function MiniTile({ title, image }: MiniTileProps) {
     return (
         <div className={styles.container}>
             <div className={styles.imageContainer}>
-                <Image src={image} />
+                <Image src={image} loadingSize="lg" />
             </div>
             <span className={styles.title}>{title}</span>
         </div>

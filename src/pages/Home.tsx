@@ -2,17 +2,15 @@ import Track from "pipebomb.js/dist/music/Track";
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import MiniTile from "../components/MiniTile";
-import PlaylistImage from "../components/PlaylistImage";
 import SideScrollWrapper from "../components/SideScrollWrapper";
-import Account, { UserDataFormat } from "../logic/Account";
-import PipeBombConnection from "../logic/PipeBombConnection";
+import PipeBombConnection, { UserData } from "../logic/PipeBombConnection";
 import PlaylistIndex from "../logic/PlaylistIndex";
 import styles from "../styles/Home.module.scss";
 import Playlist from "pipebomb.js/dist/collection/Playlist";
 import ChartPreview from "../components/ChartPreview";
 
 export default function Home() {
-    const [userData, setUserData] = useState<UserDataFormat | null>(null);
+    const [userData, setUserData] = useState<UserData | null>(null);
     const [playlists, setPlaylists] = useState<Playlist[] | null>(PlaylistIndex.getInstance().getPlaylists());
     const [recommendedTracks, setRecommendedTracks] = useState<Track[] | null | false>(false);
 
@@ -25,14 +23,14 @@ export default function Home() {
     });
 
     useEffect(() => {
-        Account.getInstance().getUserData().then(setUserData);
+        PipeBombConnection.getInstance().getUserData().then(setUserData);
 
         if (recommendedTracks !== false || !PipeBombConnection.getInstance().getUrl()) return;
         setRecommendedTracks(null);
         const pb = PipeBombConnection.getInstance().getApi();
         pb.trackCache.getTrack("sc-1162937488")
         .then(track => {
-            track.getSuggestedTracks(pb.collectionCache, pb.trackCache).then(tracks => {
+            track.getSuggestedTracks().then(tracks => {
                 setRecommendedTracks(tracks.getTrackList());
             });
         });
@@ -45,7 +43,7 @@ export default function Home() {
         
         return list.map((playlist, index) => {
             return <Link key={index} to={`/playlist/${playlist.collectionID}`}>
-                <MiniTile title={playlist.getName()} image={<PlaylistImage playlist={playlist} />} />
+                <MiniTile title={playlist.getName()} image={playlist.getThumbnailUrl()} />
             </Link>
         });
     }

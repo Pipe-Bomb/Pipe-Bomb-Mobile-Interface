@@ -2,15 +2,13 @@ import styles from "./styles/App.module.scss";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Dock from "./components/Dock";
-import Connect, { connectToHost } from "./pages/Connect";
+import Connect from "./pages/Connect";
 import Head from "./components/Head";
 import Playlist from "./pages/Playlist";
 import Player from "./components/Player";
 import PlayerCover from "./components/PlayerCover";
 import PipeBombConnection from "./logic/PipeBombConnection";
-import ServerIndex from "./logic/ServerIndex";
-import Account from "./logic/Account";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Library from "./pages/Library";
 import Explore from "./pages/Explore";
 import Search from "./pages/Search";
@@ -20,47 +18,49 @@ import ContextMenu from "./components/ContextMenu";
 import AddToPlaylist from "./components/AddToPlaylist";
 import CreatePlaylist from "./components/CreatePlaylist";
 import ExternalPlaylistPage from "./pages/ExternalPlaylistPage";
-
-let needsConnect = false;
-
-if (!PipeBombConnection.getInstance().getUrl()) {
-    const host = localStorage.getItem("host");
-    let connected = false;
-    if (host) {
-        const hostInfo = ServerIndex.getInstance().getServer(host);
-        if (hostInfo) {
-            connectToHost(hostInfo, "secure");   
-            connected = true;
-        }
-    }
-    if (!connected) {
-        needsConnect = true;
-    }
-}
-Account.getInstance();
+import useAuthenticationStatus from "./hooks/AuthenticationStatusHook";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
     const navigate = useNavigate();
-    const { pathname } = useLocation();
+    const location = useLocation();
     const content = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (needsConnect) {
-            needsConnect = false;
-            navigate("/connect");
-        }
-    }, []);
+    const authStatus = useAuthenticationStatus();
+    const [lastUrl, setLastUrl] = useState("");
 
     useEffect(() => {
-        if (content.current) {
-            content.current.scrollTo(0, 0);
+        const path = location.pathname;
+        if (!path.includes("@") || !path.includes("/")) return;
+        const end = path.split("/").pop();
+        if (!end.includes("@")) return;
+        const parts = end.split("@", 2);
+        if (parts[0] != PipeBombConnection.getInstance().getApi().context.getAddress()) return;
+        const newPath = path.substring(0, path.length - end.length) + parts[1];
+        navigate(newPath);
+    }, [location.pathname]);
+
+    useEffect(() => {
+        if (authStatus == "disconnected" || authStatus == "loading") {
+            navigate("/connect");
+        } else if (authStatus == "unauthenticated") {
+            setLastUrl(location.pathname);
+            navigate("/login");
+        } else if (authStatus == "authenticated" && location.pathname == "/login") {
+            setLastUrl("");
+            if (lastUrl && lastUrl != "/login") {
+                navigate(lastUrl);
+            } else {
+                navigate("/");
+            }
         }
-    }, [pathname]);
+    }, [authStatus]);
 
     return (
         <>
             <Routes>
                 <Route path="/connect" element={<Connect />} />
+                <Route path="/login" element={<LoginPage />} />
                 <Route path="*" element={
                     <div className={styles.flex}>
                         <Head />
